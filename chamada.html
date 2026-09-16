@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f0f4f0">
+    <meta name="description" content="JENE Gestão — gestão simples da escolinha de futebol.">
+    <title>Chamada | JENE Gestão</title>
+    <link rel="icon" href="assets/favicon-jene.png" type="image/png">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/app.js" defer></script>
+    <script src="js/chamada.js" defer></script>
+</head>
+
+<body data-page="chamada"><a class="skip-link" href="#main">Pular para o conteúdo</a>
+    <header class="site-header">
+        <div class="header-inner"><a class="brand" href="index.html" aria-label="JENE Gestão — início"><img
+                    src="assets/logo-jene.png" alt="" width="56" height="56"><span><strong>JENE
+                        <span>Gestão</span></strong><small>Gestão da escolinha</small></span></a><span
+                class="demo-label"><span></span>Versão demonstração</span></div>
+    </header>
+    <main class="container" id="main">
+        <section class="page-heading">
+            <div>
+                <p class="eyebrow">PRESENÇA NOS TREINOS</p>
+                <h1>Lista de chamada</h1>
+                <p>Selecione a turma e marque as presenças.</p>
+            </div>
+        </section>
+        <section class="attendance-controls"><label>Categoria<select id="attendance-category"></select></label>
+            <div><span class="field-label">Data da chamada</span><strong id="attendance-date"></strong></div>
+        </section>
+        <div class="section-heading">
+            <h2 id="attendance-title">Alunos da turma</h2><span id="attendance-size" class="muted"></span>
+        </div>
+        <section class="list-panel" id="attendance-list" aria-label="Marcar presença"></section>
+        <section class="attendance-footer">
+            <div class="attendance-totals" id="attendance-totals" aria-live="polite"></div><button class="button wide"
+                id="save-attendance"><span data-icon="check"></span>Salvar chamada</button>
+            <p class="helper" id="attendance-saved">Marque todos os alunos antes de salvar.</p>
+        </section>
+        <p class="demo-note">Dados fictícios · Alterações válidas nesta sessão</p><noscript>Ative o JavaScript para usar
+            esta demonstração.</noscript>
+    </main>
+    <nav class="bottom-nav" aria-label="Navegação principal" id="main-nav"></nav>
+    <div class="toast" role="status" id="toast" hidden></div>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f0f4f0">
+    <meta name="description" content="JENE Gestão — gestão simples da escolinha de futebol.">
+    <title>Início | JENE Gestão</title>
+    <link rel="icon" href="assets/favicon-jene.png" type="image/png">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/app.js" defer></script>
+</head>
+
+<body data-page="index"><a class="skip-link" href="#main">Pular para o conteúdo</a>
+    <header class="site-header">
+        <div class="header-inner"><a class="brand" href="index.html" aria-label="JENE Gestão — início"><img
+                    src="assets/logo-jene.png" alt="" width="56" height="56"><span><strong>JENE
+                        <span>Gestão</span></strong><small>Gestão da escolinha</small></span></a><span
+                class="demo-label"><span></span>Versão demonstração</span></div>
+    </header>
+    <main class="container" id="main">
+        <section class="page-heading">
+            <div>
+                <p class="eyebrow">VISÃO GERAL</p>
+                <h1>O seu time, em dia.</h1>
+                <p>Acompanhe o dia a dia da escolinha.</p>
+            </div><span class="month">Setembro de 2026</span>
+        </section>
+        <section class="stats" aria-label="Resumo da gestão" id="home-stats"></section>
+        <section class="income">
+            <div><span>Recebido neste mês</span><strong id="income-value">R$ 6.300,00</strong><span>Referente às
+                    mensalidades de setembro</span></div><span class="income-icon" data-icon="wallet"></span>
+        </section>
+        <section>
+            <div class="section-heading">
+                <h2>Ações rápidas</h2>
+            </div>
+            <div class="quick-actions"><a class="quick-action primary-action"
+                    href="mensalidades.html?filtro=abertas"><span data-icon="wallet"></span><span>Registrar
+                        pagamento</span><span aria-hidden="true">↗</span></a><a class="quick-action"
+                    href="chamada.html"><span data-icon="check"></span><span>Fazer chamada</span><span
+                        aria-hidden="true">↗</span></a><a class="quick-action" href="alunos.html?novo=1"><span
+                        data-icon="userplus"></span><span>Cadastrar aluno</span><span aria-hidden="true">↗</span></a>
+            </div>
+        </section>
+        <section>
+            <div class="section-heading">
+                <h2>Mensalidades que precisam de atenção</h2><a href="mensalidades.html?filtro=abertas">Ver todas <span
+                        aria-hidden="true">→</span></a>
+            </div>
+            <div class="list-panel" id="attention-list"></div>
+        </section>
+        <p class="demo-note">Dados fictícios · Alterações válidas nesta sessão</p><noscript>Ative o JavaScript para usar
+            esta demonstração.</noscript>
+    </main>
+    <nav class="bottom-nav" aria-label="Navegação principal" id="main-nav"></nav>
+    <div class="toast" role="status" id="toast" hidden></div>
+</body>
+
+</html>

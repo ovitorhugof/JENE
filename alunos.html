@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f0f4f0">
+    <meta name="description" content="JENE Gestão — gestão simples da escolinha de futebol.">
+    <title>Alunos | JENE Gestão</title>
+    <link rel="icon" href="assets/favicon-jene.png" type="image/png">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/app.js" defer></script>
+    <script src="js/alunos.js" defer></script>
+</head>
+
+<body data-page="alunos"><a class="skip-link" href="#main">Pular para o conteúdo</a>
+    <header class="site-header">
+        <div class="header-inner"><a class="brand" href="index.html" aria-label="JENE Gestão — início"><img
+                    src="assets/logo-jene.png" alt="" width="56" height="56"><span><strong>JENE
+                        <span>Gestão</span></strong><small>Gestão da escolinha</small></span></a><span
+                class="demo-label"><span></span>Versão demonstração</span></div>
+    </header>
+    <main class="container" id="main">
+        <section class="page-heading">
+            <div>
+                <p class="eyebrow">ALUNOS E CATEGORIAS</p>
+                <h1>Alunos</h1>
+                <p id="active-count">87 alunos ativos</p>
+            </div><button class="button" id="new-student"><span data-icon="userplus"></span>Novo aluno</button>
+        </section>
+        <label class="search-field"><span data-icon="search"></span><span class="sr-only">Buscar aluno</span><input
+                type="search" id="student-search" placeholder="Buscar aluno" autocomplete="off"></label>
+        <div class="filters" id="category-filters" aria-label="Filtrar por categoria"></div>
+        <p class="list-caption" id="student-count" aria-live="polite"></p>
+        <section class="list-panel" id="student-list" aria-label="Alunos"></section>
+        <dialog id="student-dialog" aria-labelledby="student-dialog-title">
+            <form id="student-form">
+                <div class="dialog-heading">
+                    <h2 id="student-dialog-title">Novo aluno</h2><button type="button" class="icon-button close-dialog"
+                        aria-label="Fechar">×</button>
+                </div>
+                <p>Cadastre um aluno na demonstração.</p><label>Nome completo<input name="name" required minlength="3"
+                        maxlength="80" autocomplete="name"></label><label>Categoria<select name="category"
+                        id="new-category"></select></label><label>Situação financeira<select name="status">
+                        <option>Pendente</option>
+                        <option>Pago</option>
+                        <option>Atrasado</option>
+                        <option>Isento</option>
+                    </select></label>
+                <div class="dialog-actions"><button type="button"
+                        class="button secondary close-dialog">Cancelar</button><button class="button"
+                        type="submit">Cadastrar aluno</button></div>
+            </form>
+        </dialog>
+        <p class="demo-note">Dados fictícios · Alterações válidas nesta sessão</p><noscript>Ative o JavaScript para usar
+            esta demonstração.</noscript>
+    </main>
+    <nav class="bottom-nav" aria-label="Navegação principal" id="main-nav"></nav>
+    <div class="toast" role="status" id="toast" hidden></div>
+</body>
+
+</html>
