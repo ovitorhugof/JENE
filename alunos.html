@@ -35,42 +35,93 @@
         <section class="list-panel" id="student-list" aria-label="Alunos"></section>
         <dialog id="student-dialog" class="student-dialog" aria-labelledby="student-dialog-title">
             <form id="student-form">
-                <div class="dialog-heading"><h2 id="student-dialog-title" tabindex="-1">Novo aluno</h2><button type="button" class="icon-button close-dialog" aria-label="Fechar cadastro">×</button></div>
+                <div class="dialog-heading">
+                    <h2 id="student-dialog-title" tabindex="-1">Novo aluno</h2><button type="button"
+                        class="icon-button close-dialog" aria-label="Fechar cadastro">×</button>
+                </div>
                 <p>Preencha os dados essenciais agora. Os campos sem * são opcionais.</p>
-                <fieldset><legend>1. Dados do aluno</legend><div class="student-fields">
-                    <label class="full-field">Nome completo *<input name="name" required maxlength="100" autocomplete="name"></label>
-                    <label>Data de nascimento *<input type="date" name="dataNascimento" required aria-describedby="student-age"></label>
-                    <p id="student-age" class="age-hint" aria-live="polite">Idade calculada pelo nascimento.</p>
-                    <label>Telefone do aluno<input type="tel" name="telefone" maxlength="25" autocomplete="tel" placeholder="Opcional"></label>
-                    <label>Status do aluno<select name="statusAluno"><option value="ativo">Ativo</option><option value="inativo">Inativo</option><option value="afastado">Afastado</option></select></label>
-                </div></fieldset>
-                <fieldset class="guardian-section"><legend>2. Responsável</legend>
+                <fieldset>
+                    <legend>1. Dados do aluno</legend>
+                    <div class="student-fields">
+                        <label class="full-field">Nome completo *<input name="name" required maxlength="100"
+                                autocomplete="name"></label>
+                        <label>Data de nascimento *<input type="date" name="dataNascimento" required
+                                aria-describedby="student-age"></label>
+                        <p id="student-age" class="age-hint" aria-live="polite">Idade calculada pelo nascimento.</p>
+                        <label>Telefone do aluno<input type="tel" name="telefone" maxlength="25" autocomplete="tel"
+                                placeholder="Opcional"></label>
+                        <label>Status do aluno<select name="statusAluno">
+                                <option value="ativo">Ativo</option>
+                                <option value="inativo">Inativo</option>
+                                <option value="afastado">Afastado</option>
+                            </select></label>
+                    </div>
+                </fieldset>
+                <fieldset class="guardian-section">
+                    <legend>2. Responsável</legend>
                     <p id="guardian-help">Nome e telefone principal obrigatórios.</p>
                     <div class="student-fields">
-                        <label>Nome do responsável<span class="guardian-required"></span><input name="responsavelNome" maxlength="100" aria-describedby="guardian-help"></label>
-                        <label>Grau de parentesco<select name="parentesco"><option value="">Selecionar</option><option>Mãe</option><option>Pai</option><option>Avó</option><option>Avô</option><option>Tio/Tia</option><option>Responsável legal</option><option>Outro</option></select></label>
-                        <label>Telefone principal<span class="guardian-required"></span><input type="tel" name="responsavelTelefone" maxlength="25" placeholder="(35) 99999-9999" aria-describedby="guardian-help"></label>
+                        <label>Nome do responsável<span class="guardian-required"></span><input name="responsavelNome"
+                                maxlength="100" aria-describedby="guardian-help"></label>
+                        <label>Grau de parentesco<select name="parentesco">
+                                <option value="">Selecionar</option>
+                                <option>Mãe</option>
+                                <option>Pai</option>
+                                <option>Avó</option>
+                                <option>Avô</option>
+                                <option>Tio/Tia</option>
+                                <option>Responsável legal</option>
+                                <option>Outro</option>
+                            </select></label>
+                        <label>Telefone principal<span class="guardian-required"></span><input type="tel"
+                                name="responsavelTelefone" maxlength="25" placeholder="(35) 99999-9999"
+                                aria-describedby="guardian-help"></label>
                         <label>Telefone alternativo<input type="tel" name="telefoneAlternativo" maxlength="25"></label>
                     </div>
                 </fieldset>
-                <fieldset><legend>3. Escola / Categoria</legend><div class="student-fields">
-                    <label>Categoria *<select name="category" id="new-category" required></select></label>
-                    <label>Data de entrada na escolinha<input type="date" name="dataEntrada"></label>
-                </div></fieldset>
-                <fieldset><legend>4. Mensalidade</legend><div class="student-fields">
-                    <label>Valor da mensalidade (R$)<input type="number" name="valor" min="0" step="0.01" inputmode="decimal" placeholder="0,00"></label>
-                    <label>Dia de vencimento<input type="number" name="vencimento" min="1" max="31" step="1" inputmode="numeric" placeholder="1 a 31"></label>
-                    <label>Situação especial<select name="situacaoEspecial"><option value="normal">Normal</option><option value="isento">Isento</option><option value="desconto">Desconto</option><option value="bolsa">Bolsa</option></select></label>
-                    <label id="discount-field" hidden>Valor com desconto (R$)<input type="number" name="valorComDesconto" min="0" step="0.01" inputmode="decimal" disabled></label>
-                </div></fieldset>
-                <fieldset><legend>5. Observações</legend><label>Anotações administrativas<textarea name="observacoes" rows="4" maxlength="2000" placeholder="Informações do responsável, necessidade de uniforme ou observações de matrícula."></textarea></label></fieldset>
-                <div class="dialog-actions student-actions"><button type="button" class="button secondary close-dialog">Cancelar</button><button class="button" type="submit">Salvar aluno</button></div>
+                <fieldset>
+                    <legend>3. Escola / Categoria</legend>
+                    <div class="student-fields">
+                        <label>Categoria *<select name="category" id="new-category" required></select></label>
+                        <label>Data de entrada na escolinha<input type="date" name="dataEntrada"></label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>4. Mensalidade</legend>
+                    <div class="student-fields">
+                        <label>Valor da mensalidade (R$)<input type="number" name="valor" min="0" step="0.01"
+                                inputmode="decimal" placeholder="0,00"></label>
+                        <label>Dia de vencimento<input type="number" name="vencimento" min="1" max="31" step="1"
+                                inputmode="numeric" placeholder="1 a 31"></label>
+                        <label>Situação especial<select name="situacaoEspecial">
+                                <option value="normal">Normal</option>
+                                <option value="isento">Isento</option>
+                                <option value="desconto">Desconto</option>
+                                <option value="bolsa">Bolsa</option>
+                            </select></label>
+                        <label id="discount-field" hidden>Valor com desconto (R$)<input type="number"
+                                name="valorComDesconto" min="0" step="0.01" inputmode="decimal" disabled></label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>5. Observações</legend><label>Anotações administrativas<textarea name="observacoes" rows="4"
+                            maxlength="2000"
+                            placeholder="Informações do responsável, necessidade de uniforme ou observações de matrícula."></textarea></label>
+                </fieldset>
+                <div class="dialog-actions student-actions"><button type="button"
+                        class="button secondary close-dialog">Cancelar</button><button class="button"
+                        type="submit">Salvar aluno</button></div>
             </form>
         </dialog>
         <dialog id="student-details" class="student-dialog" aria-labelledby="student-details-title">
-            <div class="dialog-heading"><h2 id="student-details-title" tabindex="-1">Detalhes do aluno</h2><button type="button" class="icon-button close-dialog" aria-label="Fechar detalhes">×</button></div>
+            <div class="dialog-heading">
+                <h2 id="student-details-title" tabindex="-1">Detalhes do aluno</h2><button type="button"
+                    class="icon-button close-dialog" aria-label="Fechar detalhes">×</button>
+            </div>
             <div id="student-details-content"></div>
-            <div class="dialog-actions details-actions"><button class="button" id="edit-student" type="button">Editar aluno</button><a class="button secondary" id="student-payments">Ver mensalidades</a><a class="button secondary" href="chamada.html">Ver presença</a></div>
+            <div class="dialog-actions details-actions"><button class="button" id="edit-student" type="button">Editar
+                    aluno</button><a class="button secondary" id="student-payments">Ver mensalidades</a><a
+                    class="button secondary" href="chamada.html">Ver presença</a></div>
         </dialog>
         <p class="demo-note">Dados fictícios · Alterações válidas nesta sessão</p><noscript>Ative o JavaScript para usar
             esta demonstração.</noscript>
