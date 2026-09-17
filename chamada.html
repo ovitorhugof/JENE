@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f0f4f0">
+    <meta name="theme-color" content="#153e35">
     <meta name="description" content="JENE Gestão — gestão simples da escolinha de futebol.">
     <title>Chamada | JENE Gestão</title>
-    <link rel="icon" href="assets/favicon-jene.png" type="image/png">
+    <link rel="icon" href="assets/favicon-jene.png?v=2" type="image/png">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/app.js" defer></script>
     <script src="js/chamada.js" defer></script>
+    <script src="js/ui.js" defer></script>
 </head>
 
 <body data-page="chamada"><a class="skip-link" href="#main">Pular para o conteúdo</a>
@@ -36,6 +37,7 @@
         </div>
         <section class="list-panel" id="attendance-list" aria-label="Marcar presença"></section>
         <section class="attendance-footer">
+            <div class="attendance-progress" id="attendance-progress" aria-live="polite"></div>
             <div class="attendance-totals" id="attendance-totals" aria-live="polite"></div><button class="button wide"
                 id="save-attendance"><span data-icon="check"></span>Salvar chamada</button>
             <p class="helper" id="attendance-saved">Marque todos os alunos antes de salvar.</p>

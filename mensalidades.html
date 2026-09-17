@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f0f4f0">
+    <meta name="theme-color" content="#153e35">
     <meta name="description" content="JENE Gestão — gestão simples da escolinha de futebol.">
     <title>Mensalidades | JENE Gestão</title>
-    <link rel="icon" href="assets/favicon-jene.png" type="image/png">
+    <link rel="icon" href="assets/favicon-jene.png?v=2" type="image/png">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/app.js" defer></script>
     <script src="js/mensalidades.js" defer></script>
+    <script src="js/ui.js" defer></script>
 </head>
 
 <body data-page="mensalidades"><a class="skip-link" href="#main">Pular para o conteúdo</a>
@@ -29,6 +30,7 @@
             </div><span class="month" data-icon="wallet"></span>
         </section>
         <section class="stats financial-stats" id="finance-stats" aria-label="Resumo financeiro"></section>
+        <div class="filter-context" id="payment-context" hidden><span id="payment-context-name"></span><a href="mensalidades.html">Ver todos os alunos</a></div>
         <div class="filters" id="payment-filters" aria-label="Filtrar mensalidades"></div>
         <p class="list-caption" id="payment-count" aria-live="polite"></p>
         <section class="payment-list" id="payment-list" aria-label="Mensalidades"></section>

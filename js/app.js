@@ -65,6 +65,15 @@ window.Jene = (() => {
   const initials = name => name.trim().split(/\s+/).slice(0,2).map(n=>n[0]).join("");
   const identity = s => '<span class="avatar" aria-hidden="true">'+escape(initials(s.name))+'</span><div class="student-info"><strong>'+escape(s.name)+'</strong><small>'+escape(s.category)+'</small></div>';
   const paths = {
+    arrow:'<path d="M5 12h14m-5-5 5 5-5 5"/>',
+    chevron:'<path d="m9 5 7 7-7 7"/>',
+    calendar:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M16 3v4M8 3v4M3 11h18m-13 4h2m4 0h2"/>',
+    tick:'<path d="m5 12 4 4L19 6"/>',
+    close:'<path d="m6 6 12 12M6 18 18 6"/>',
+    edit:'<path d="m15 4 5 5M4 20l5-1L21 7a2 2 0 0 0-5-5L4 14Z"/>',
+    shield:'<path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Z"/><path d="m8 12 3 3 5-6"/>',
+    note:'<path d="M14 3H5v18h14V8Zm0 0v5h5M8 12h8M8 16h5"/>',
+    info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10h.01"/>',
     home:'<path d="m3 10 9-7 9 7v11h-6v-7H9v7H3Z"/>',
     users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m20 0v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
     wallet:'<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 8V5a2 2 0 0 1 2-2h12m4 8h-6v5h6m-3-2.5h.01"/>',
@@ -91,7 +100,7 @@ window.Jene = (() => {
     result.active+=state.students.filter(s=>s.statusAluno==="ativo").length-seed.length;
     return result;
   }
-  const stat=(label,value,type="",symbol="users")=>'<div class="stat '+type+'"><span class="stat-label">'+icon(symbol)+label+'</span><strong>'+value+'</strong></div>';
+  const stat=(label,value,type="",symbol="users")=>'<div class="stat '+type+'"><span class="stat-symbol">'+icon(symbol)+'</span><span class="stat-label">'+label+'</span><strong>'+value+'</strong><small class="stat-hint">'+(symbol==="users"?'Total ilustrativo':'Neste mês · demonstração')+'</small></div>';
   const overdueText=s=>s.status==="Atrasado"?"Atrasado há "+Math.max(0,Math.round((new Date("2026-09-16T12:00:00")-new Date(s.due+"T12:00:00"))/86400000))+" dias":s.status;
   function filters(element,items,selected,callback) {
     element.innerHTML=items.map(([value,label])=>'<button class="filter" type="button" data-value="'+escape(value)+'" aria-pressed="'+(value===selected)+'">'+escape(label)+'</button>').join("");

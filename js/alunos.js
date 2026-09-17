@@ -11,7 +11,7 @@
     const students=Jene.state.students.filter(s=>(category==="Todos"||s.category===category)&&normalize(s.name).includes(normalize(query)));
     document.getElementById("active-count").textContent=Jene.summary().active+" alunos ativos · Total ilustrativo";
     document.getElementById("student-count").textContent=students.length+" alunos na amostra · Toque para ver os detalhes";
-    list.innerHTML=students.map(s=>'<button type="button" class="student-row student-open" data-student="'+s.id+'" aria-label="Ver detalhes de '+Jene.escape(s.name)+'">'+Jene.identity(s)+'<span class="student-badges">'+Jene.badge(s.status)+'<span class="badge student-status">'+Jene.escape(statusLabels[s.statusAluno])+'</span></span></button>').join("")||'<p class="empty">Nenhum aluno encontrado. Tente outro nome ou categoria.</p>';
+    list.innerHTML=students.map(s=>'<button type="button" class="student-row student-open" data-student="'+s.id+'" aria-label="Ver detalhes de '+Jene.escape(s.name)+'">'+Jene.identity(s)+'<span class="student-badges">'+Jene.badge(s.status)+'<span class="badge student-status">'+Jene.escape(statusLabels[s.statusAluno])+'</span></span><span class="row-arrow">'+Jene.icon('chevron')+'</span></button>').join("")||'<p class="empty">'+Jene.icon('search')+'Nenhum aluno encontrado. Tente outro nome ou categoria.</p>';
   }
   Jene.filters(document.getElementById("category-filters"),["Todos",...Jene.categories].map(c=>[c,c]),category,value=>{category=value;render();});
   document.getElementById("student-search").addEventListener("input",e=>{query=e.target.value.trim();render();});

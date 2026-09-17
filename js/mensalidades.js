@@ -5,10 +5,13 @@
   const list=document.getElementById("payment-list");
   function render(){
     const s=Jene.summary();
+    const focused=Jene.state.students.find(student=>String(student.id)===studentId);
+    document.getElementById("payment-context").hidden=!studentId;
+    document.getElementById("payment-context-name").textContent=focused?"Mensalidades de "+focused.name:"Aluno não encontrado";
     document.getElementById("finance-stats").innerHTML=Jene.stat("Previsto",Jene.money(s.expected),"","wallet")+Jene.stat("Recebido",Jene.money(s.received),"paid","check")+Jene.stat("Pendente",Jene.money(s.pending),"pending","clock")+Jene.stat("Em atraso",Jene.money(s.overdue),"overdue","alert");
     const students=Jene.state.students.filter(s=>s.status!=="Isento"&&(!studentId||String(s.id)===studentId)&&(filter==="Todas"||(filter==="abertas"?["Pendente","Atrasado"].includes(s.status):s.status===filter)));
     document.getElementById("payment-count").textContent=students.length+" mensalidades na amostra · Totais gerais ilustrativos";
-    list.innerHTML=students.map(s=>'<article class="payment-card"><div class="student-row">'+Jene.identity(s)+'</div><div class="payment-details"><strong>'+Jene.money(s.amount)+'</strong><small>Vencimento: '+Jene.date(s.due)+'</small></div>'+Jene.badge(s.status,Jene.overdueText(s))+(s.status==="Pago"?'<p class="payment-date">Pago em '+Jene.date(s.paidAt)+'</p>':'<p class="helper">Mensalidade de setembro</p><button class="button secondary" data-pay="'+s.id+'">Registrar pagamento</button>')+'</article>').join("")||'<p class="empty">Nenhuma mensalidade neste filtro.</p>';
+    list.innerHTML=students.map(s=>'<article class="payment-card"><div class="student-row">'+Jene.identity(s)+'</div><div class="payment-details"><strong>'+Jene.money(s.amount)+'</strong><small>Vencimento: '+Jene.date(s.due)+'</small></div>'+Jene.badge(s.status,Jene.overdueText(s))+(s.status==="Pago"?'<p class="payment-date">'+Jene.icon('tick')+'Pago em '+Jene.date(s.paidAt)+'</p>':'<p class="helper">Mensalidade de setembro</p><button class="button secondary" data-pay="'+s.id+'">'+Jene.icon('wallet')+'Registrar pagamento</button>')+'</article>').join("")||'<p class="empty">Nenhuma mensalidade neste filtro.</p>';
   }
   const items=[["Todas","Todas"],["Pago","Pagas"],["Pendente","Pendentes"],["Atrasado","Atrasadas"]];
   if(filter==="abertas")items.push(["abertas","Em aberto"]);

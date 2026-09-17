@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f0f4f0">
+    <meta name="theme-color" content="#153e35">
     <meta name="description" content="JENE Gestão — gestão simples da escolinha de futebol.">
     <title>Início | JENE Gestão</title>
-    <link rel="icon" href="assets/favicon-jene.png" type="image/png">
+    <link rel="icon" href="assets/favicon-jene.png?v=2" type="image/png">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/app.js" defer></script>
+    <script src="js/ui.js" defer></script>
 </head>
 
 <body data-page="index"><a class="skip-link" href="#main">Pular para o conteúdo</a>
@@ -23,16 +24,17 @@
         <section class="page-heading">
             <div>
                 <p class="eyebrow">VISÃO GERAL</p>
-                <h1>Visão Geral</h1>
+                <h1>Visão geral</h1>
                 <p>Acompanhe o dia a dia da escolinha.</p>
             </div><span class="month">Setembro de 2026</span>
         </section>
         <section class="stats" aria-label="Resumo da gestão" id="home-stats"></section>
+        <div class="overview-grid">
         <section class="income">
             <div><span>Recebido neste mês</span><strong id="income-value">R$ 6.300,00</strong><span>Referente às
                     mensalidades de setembro</span></div><span class="income-icon" data-icon="wallet"></span>
         </section>
-        <section>
+        <section class="actions-panel">
             <div class="section-heading">
                 <h2>Ações rápidas</h2>
             </div>
@@ -44,9 +46,10 @@
                         data-icon="userplus"></span><span>Cadastrar aluno</span><span aria-hidden="true">↗</span></a>
             </div>
         </section>
+        </div>
         <section>
             <div class="section-heading">
-                <h2>Mensalidades que precisam de atenção</h2><a href="mensalidades.html?filtro=abertas">Ver todas <span
+                <h2>Mensalidades em atenção</h2><a href="mensalidades.html?filtro=abertas">Ver todas <span
                         aria-hidden="true">→</span></a>
             </div>
             <div class="list-panel" id="attention-list"></div>

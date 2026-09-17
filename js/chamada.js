@@ -11,12 +11,13 @@
     const group=students(),present=group.filter(s=>marks[s.id]==="Presente").length,absent=group.filter(s=>marks[s.id]==="Ausente").length,remaining=group.length-present-absent;
     document.getElementById("attendance-totals").innerHTML='<span>Presentes: <strong>'+present+'</strong></span><span>Ausentes: <strong>'+absent+'</strong></span><span>A marcar: <strong>'+remaining+'</strong></span>';
     document.getElementById("save-attendance").disabled=remaining>0||group.length===0;
+    document.getElementById("attendance-progress").innerHTML='<p>'+ (group.length-remaining)+' de '+group.length+' alunos marcados</p><progress max="'+(group.length||1)+'" value="'+(group.length-remaining)+'" aria-label="Progresso da chamada"></progress>';
   }
   function render(){
     marks={...(drafts[key()]||Jene.state.attendance[key()]||{})};dirty=Boolean(drafts[key()]);
     document.getElementById("attendance-title").textContent="Turma "+select.value;
     document.getElementById("attendance-size").textContent=students().length+" alunos";
-    list.innerHTML=students().map(s=>'<div class="attendance-row"><strong id="name-'+s.id+'">'+Jene.escape(s.name)+'</strong><div class="presence-options" role="group" aria-labelledby="name-'+s.id+'">'+["Presente","Ausente"].map(status=>'<label class="presence-option '+(status==="Ausente"?"absent":"")+'"><input type="radio" name="attendance-'+s.id+'" value="'+status+'" data-id="'+s.id+'" '+(marks[s.id]===status?"checked":"")+'><span>'+status+'</span></label>').join("")+'</div></div>').join("")||'<p class="empty">Nenhum aluno nesta categoria.</p>';
+    list.innerHTML=students().map(s=>'<div class="attendance-row"><strong id="name-'+s.id+'">'+Jene.escape(s.name)+'</strong><div class="presence-options" role="group" aria-labelledby="name-'+s.id+'">'+["Presente","Ausente"].map(status=>'<label class="presence-option '+(status==="Ausente"?"absent":"")+'"><input type="radio" name="attendance-'+s.id+'" value="'+status+'" data-id="'+s.id+'" '+(marks[s.id]===status?"checked":"")+'><span>'+Jene.icon(status==="Presente"?"tick":"close")+status+'</span></label>').join("")+'</div></div>').join("")||'<p class="empty">Nenhum aluno nesta categoria.</p>';
     document.getElementById("attendance-saved").textContent=dirty?"Há alterações ainda não salvas.":Jene.state.attendance[key()]?"Chamada salva nesta sessão. Você pode ajustar as presenças.":"Marque todos os alunos antes de salvar.";
     totals();
   }
@@ -30,4 +31,3 @@
   window.addEventListener("beforeunload",e=>{if(Object.keys(drafts).length){e.preventDefault();e.returnValue="";}});
   render();
 })();
-
