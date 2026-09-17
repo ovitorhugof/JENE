@@ -13,12 +13,45 @@ window.Jene = (() => {
     {id:9,name:"Miguel Costa",category:"Sub-15",status:"Pago",amount:100,due:"2026-09-10",paidAt:"2026-09-08"},
     {id:10,name:"Arthur Ribeiro",category:"Sub-13",status:"Pendente",amount:100,due:"2026-09-20"}
   ];
+  // Cadastro independente da cobrança demonstrativa (status, amount, due).
+  const birthdays = ["2013-06-12","2015-04-23","2011-08-05","2013-03-14","2017-07-19","2009-11-02","2013-01-30","2015-09-08","2011-12-15","2013-05-21"];
+  function normalizeStudent(s) {
+    return {...s, dataNascimento:s.dataNascimento || "", telefone:s.telefone || "",
+      statusAluno:s.statusAluno || "ativo", dataEntrada:s.dataEntrada || "",
+      responsavel:{nome:"",parentesco:"",telefone:"",telefoneAlternativo:"",...s.responsavel},
+      uniforme:{numeroPreferido:null,camisa:"",short:"",...s.uniforme},
+      mensalidade:{valor:s.amount ?? null,vencimento:s.due ? Number(s.due.slice(-2)) : null,
+        situacaoEspecial:s.status === "Isento" ? "isento" : "normal",...s.mensalidade},
+      observacoes:s.observacoes || ""};
+  }
+  seed.forEach((s,i)=>Object.assign(s,normalizeStudent({...s,dataNascimento:birthdays[i],
+    dataEntrada:"2025-02-10",responsavel:{nome:["Ana","Marcos","Juliana","Marcos","Cláudia","Paulo","Fernanda","Renata","José","Luciana"][i]+" "+s.name.split(" ").pop(),
+      parentesco:i%2 ? "Pai" : "Mãe",telefone:"(35) 99999-"+String(1000+i)},
+    uniforme:{numeroPreferido:i+7,camisa:i%2 ? "P" : "Infantil 14",short:"P"}})));
   const key = "jene-demo-v1";
   let state = {students:seed.map(s=>({...s})), attendance:{}};
   try {
     const saved = JSON.parse(sessionStorage.getItem(key));
     if (saved && Array.isArray(saved.students) && saved.attendance) state = saved;
   } catch { /* A demonstração também funciona sem armazenamento disponível. */ }
+  // Migra cadastros antigos sem inventar nascimento ou responsável.
+  state.students = state.students.map(normalizeStudent);
+  const calculateAge = (value, today = new Date()) => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+    const [year,month,day] = value.split("-").map(Number);
+    const birth = new Date(value+"T12:00:00");
+    if (birth.getFullYear()!==year || birth.getMonth()!==month-1 || birth.getDate()!==day) return null;
+    let age=today.getFullYear()-year;
+    if (today.getMonth()+1<month || (today.getMonth()+1===month && today.getDate()<day)) age--;
+    return age<0 ? null : age;
+  };
+  // Ponto único de gravação do cadastro para uma futura fonte de dados.
+  function saveStudent(student) {
+    const index=state.students.findIndex(s=>s.id===student.id);
+    const normalized=normalizeStudent(student);
+    if(index<0)state.students.push(normalized);else state.students[index]=normalized;
+    persist();return normalized;
+  }
   const persist = () => {
     try { sessionStorage.setItem(key, JSON.stringify(state)); }
     catch { toast("Armazenamento indisponível. Alterações válidas apenas nesta página."); }
@@ -26,7 +59,7 @@ window.Jene = (() => {
   const escape = value => String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const money = value => value.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
   const localDate = () => { const d=new Date(); return [d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-"); };
-  const date = value => new Date(value+"T12:00:00").toLocaleDateString("pt-BR");
+  const date = value => value ? new Date(value+"T12:00:00").toLocaleDateString("pt-BR") : "Não informado";
   const statusClass = value => ({Pago:"paid",Pendente:"pending",Atrasado:"overdue",Isento:"exempt"}[value] || "");
   const badge = (value,text=value) => '<span class="badge '+statusClass(value)+'">'+escape(text)+'</span>';
   const initials = name => name.trim().split(/\s+/).slice(0,2).map(n=>n[0]).join("");
@@ -55,7 +88,7 @@ window.Jene = (() => {
       if(s.status==="Atrasado")result.overdue+=direction*s.amount;
     };
     seed.forEach(s=>adjust(s,-1)); state.students.forEach(s=>adjust(s,1));
-    result.active+=state.students.length-seed.length;
+    result.active+=state.students.filter(s=>s.statusAluno==="ativo").length-seed.length;
     return result;
   }
   const stat=(label,value,type="",symbol="users")=>'<div class="stat '+type+'"><span class="stat-label">'+icon(symbol)+label+'</span><strong>'+value+'</strong></div>';
@@ -72,7 +105,7 @@ window.Jene = (() => {
     el.querySelectorAll(".close-dialog").forEach(b=>b.addEventListener("click",()=>el.close()));
     return el;
   }
-  return {categories,state,persist,escape,money,date,localDate,badge,identity,icon,toast,summary,stat,overdueText,filters,dialog};
+  return {categories,state,persist,saveStudent,calculateAge,escape,money,date,localDate,badge,identity,icon,toast,summary,stat,overdueText,filters,dialog};
 })();
 document.querySelectorAll("[data-icon]").forEach(el=>{el.innerHTML=Jene.icon(el.dataset.icon);});
 const navItems=[["index","Início","home"],["alunos","Alunos","users"],["mensalidades","Mensalidades","wallet"],["chamada","Chamada","check"]];
@@ -84,4 +117,3 @@ if(document.body.dataset.page==="index"){
   const attention=Jene.state.students.filter(s=>["Atrasado","Pendente"].includes(s.status)).slice(0,3);
   document.getElementById("attention-list").innerHTML=attention.map(s=>'<a class="student-row" href="mensalidades.html?aluno='+s.id+'" aria-label="Ver mensalidade de '+Jene.escape(s.name)+'">'+Jene.identity(s)+Jene.badge(s.status,Jene.overdueText(s))+'</a>').join("")||'<p class="empty">Nenhuma mensalidade precisa de atenção nesta amostra.</p>';
 }
-

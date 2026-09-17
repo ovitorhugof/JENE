@@ -4,3 +4,35 @@
 @media(max-width:600px){.header-inner{padding:17px 20px}.brand strong{font-size:21px}.brand img{width:48px;height:48px}.demo-label{font-size:10px;max-width:88px;line-height:1.4}.container{padding:25px 20px 110px}.page-heading{align-items:flex-start;flex-wrap:wrap;margin-bottom:22px;gap:15px}h1{font-size:29px}.page-heading .month{font-size:12px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stat{padding:16px}.stat strong{font-size:29px}.financial-stats strong{font-size:24px}.income{padding:22px 20px}.income strong{font-size:31px}.quick-actions{grid-template-columns:1fr;gap:9px}.quick-action{min-height:58px;padding:15px 17px;font-size:14px}.section-heading{margin-top:26px;gap:12px}h2{font-size:16px}.section-heading h2{max-width:240px}.student-row{padding:16px 13px;gap:10px}.avatar{width:34px;height:34px;font-size:10px}.student-info strong{font-size:13px}.badge{font-size:10px;padding:5px 7px}.payment-list{grid-template-columns:1fr}.payment-card{padding:18px}.payment-card .student-info strong{font-size:15px}.attendance-controls{padding:16px;gap:16px}.attendance-row{align-items:flex-start;flex-direction:column;gap:12px;padding:17px}.presence-options{width:100%}.presence-option{flex:1;text-align:center}.attendance-controls strong{font-size:13px}.page-heading .button{padding:10px 13px}.dialog-actions .button{padding:10px 12px}.financial-stats .stat-label{font-size:12px}}
 @media(prefers-reduced-motion:no-preference){a,button{transition:background-color .15s,color .15s}}
 
+
+/* Cadastro de alunos: estilos restritos ao módulo. */
+.student-dialog{max-width:720px;background:var(--surface);padding:24px}
+.student-dialog fieldset{min-width:0;border:1px solid var(--line);border-radius:10px;padding:18px;margin:0 0 20px}
+.student-dialog legend{font-size:15px;font-weight:700;color:var(--green-ink);padding:0 6px}
+.student-fields{display:grid;grid-template-columns:1fr;gap:16px;min-width:0}
+.student-fields label{min-width:0}
+.student-dialog input,.student-dialog select,.student-dialog textarea{font:inherit;font-size:16px;width:100%;min-width:0;min-height:48px;margin:7px 0 0;padding:12px;border:1px solid #b8cdbd;border-radius:7px;background:var(--surface);color:var(--black)}
+.student-dialog textarea{display:block;resize:vertical}
+.student-dialog .guardian-section{background:var(--green-soft);border-color:#b8cdbd}
+.student-dialog .age-hint{margin:0;align-self:center;font-size:14px;color:var(--green-ink)}
+.student-dialog [hidden]{display:none}
+.student-actions{position:sticky;bottom:-24px;background:var(--surface);padding:16px 0;margin-top:0;border-top:1px solid var(--line)}
+.student-actions .button[type=submit]{flex:1}
+.student-open{width:100%;background:transparent;color:var(--black);border:0;border-bottom:1px solid var(--line);text-align:left}
+.student-open:hover{background:var(--green-soft)}
+.student-open:focus-visible{outline-offset:-4px}
+.student-badges{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.student-status{background:var(--bg)}
+.student-detail-grid{display:grid;grid-template-columns:1fr;gap:18px;margin:24px 0}
+.student-detail-grid div{min-width:0}
+.student-detail-grid dt{color:var(--muted);font-size:12px}
+.student-detail-grid dd{margin:4px 0 0;font-size:15px;overflow-wrap:anywhere}
+.student-notes{border-top:1px solid var(--line);padding-top:16px}
+.student-notes h3{font-size:15px;margin:0 0 8px}
+.student-notes p{white-space:pre-wrap;overflow-wrap:anywhere}
+.details-actions{flex-wrap:wrap}
+.details-actions .button{flex:1}
+.student-dialog .dialog-heading h2{overflow-wrap:anywhere;min-width:0}
+.student-dialog .icon-button{flex-shrink:0}
+@media(min-width:601px){.student-fields,.student-detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.student-fields .full-field{grid-column:1/-1}.student-badges{flex-direction:row;align-items:center;gap:10px}}
+@media(max-width:600px){.student-dialog{width:calc(100% - 16px);max-height:94dvh;padding:16px}.student-dialog fieldset{padding:14px}.student-actions{bottom:-16px}.details-actions{flex-direction:column}.student-open .avatar{display:none}}
