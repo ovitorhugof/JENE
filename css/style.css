@@ -43,3 +43,5 @@ dialog{width:calc(100% - 24px);max-width:480px;max-height:92dvh;overflow:auto;ov
 .storage-warning,.dialog-feedback{padding:14px;border:1px solid #ebc6c6;border-radius:10px;background:#fff8ed;color:var(--black);font-size:14px;margin-bottom:18px}
 .attendance-controls{flex-wrap:wrap}.attendance-controls label{flex:1 1 130px}.attendance-controls input{margin-bottom:0}
 #delete-attendance{margin-top:16px}
+.sort-control{max-width:240px;margin-top:16px}.sort-control select{margin-bottom:0}
+#match-details .details-actions .button{min-width:0;overflow-wrap:anywhere}

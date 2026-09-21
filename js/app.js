@@ -61,6 +61,38 @@ window.Jene = (() => {
     if (today.getMonth()+1<month || (today.getMonth()+1===month && today.getDate()<day)) age--;
     return age<0 ? null : age;
   };
+  // Ordena apenas cópias; datas ausentes ou inválidas ficam no fim.
+  function sortStudents(students,order="name"){
+    const byName=(a,b)=>a.name.localeCompare(b.name,"pt-BR");
+    return [...students].sort((a,b)=>{
+      if(order==="youngest"||order==="oldest"){
+        const validA=calculateAge(a.dataNascimento)!==null,validB=calculateAge(b.dataNascimento)!==null;
+        if(validA!==validB)return validA?-1:1;
+        if(validA){const difference=a.dataNascimento.localeCompare(b.dataNascimento);if(difference)return order==="youngest"?-difference:difference;}
+      }
+      if(order==="category"){
+        const rank=c=>{const index=categories.indexOf(c);return index<0?categories.length:index;};
+        const difference=rank(a.category)-rank(b.category);if(difference)return difference;
+      }
+      return byName(a,b);
+    });
+  }
+  function calledStudents(match){
+    return sortStudents(match.calledPlayers.map(id=>{
+      const student=state.students.find(s=>String(s.id)===String(id));
+      return {id,name:match.playerNames?.[id]||student?.name||"Jogador não disponível",dataNascimento:student?.dataNascimento||"",category:match.category};
+    }));
+  }
+  const filenamePart=value=>String(value).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,80).replace(/-+$/g,"")||"nao-informado";
+  function csv(rows){
+    const cell=value=>{
+      let text=String(value??"");
+      // Impede que conteúdo digitado seja interpretado como fórmula na planilha.
+      if(/^[\s\u0000-\u001f]*[=+@-]/.test(text))text="'"+text;
+      return '"'+text.replace(/"/g,'""')+'"';
+    };
+    return "\uFEFF"+rows.map(row=>row.map(cell).join(";")).join("\r\n")+"\r\n";
+  }
   // Ponto único de gravação do cadastro para uma futura fonte de dados.
   function saveStudent(student) {
     const normalized=normalizeStudent(student);
@@ -158,7 +190,7 @@ window.Jene = (() => {
     return el;
   }
   if(storageError)document.addEventListener("DOMContentLoaded",()=>{const warning=document.createElement("p");warning.className="storage-warning";warning.setAttribute("role","alert");warning.textContent=storageError;document.getElementById("main").prepend(warning);});
-  return {categories,state,update,saveStudent,deleteStudent,saveMatch,confirmAction,calculateAge,escape,money,date,localDate,badge,identity,icon,toast,summary,stat,overdueText,filters,dialog};
+  return {categories,state,update,saveStudent,deleteStudent,saveMatch,confirmAction,calculateAge,sortStudents,calledStudents,filenamePart,csv,escape,money,date,localDate,badge,identity,icon,toast,summary,stat,overdueText,filters,dialog};
 })();
 document.querySelectorAll("[data-icon]").forEach(el=>{el.innerHTML=Jene.icon(el.dataset.icon);});
 const navItems=[["index","Início","home"],["alunos","Alunos","users"],["mensalidades","Mensalidades","wallet"],["chamada","Chamada","check"]];

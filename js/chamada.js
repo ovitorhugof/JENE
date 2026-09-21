@@ -4,7 +4,7 @@
   let marks={},dirty=false;
   select.innerHTML=Jene.categories.map(c=>'<option'+(c==="Sub-13"?' selected':"")+'>'+c+'</option>').join("");
   date.value=Jene.localDate();
-  const students=()=>Jene.state.students.filter(s=>s.category===select.value);
+  const students=()=>Jene.sortStudents(Jene.state.students.filter(s=>s.category===select.value));
   const key=()=>date.value+"_"+select.value;
   const drafts={};
   function totals(){
