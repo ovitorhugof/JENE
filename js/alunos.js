@@ -65,6 +65,13 @@
   }
   list.addEventListener("click",e=>{const button=e.target.closest("[data-student]");if(button)showDetails(Jene.state.students.find(s=>String(s.id)===button.dataset.student));});
   document.getElementById("edit-student").addEventListener("click",()=>{details.close();openForm(Jene.state.students.find(s=>s.id===selectedId));});
+  document.getElementById("delete-student").addEventListener("click",()=>{
+    const student=Jene.state.students.find(s=>s.id===selectedId);
+    Jene.confirmAction('Excluir '+student.name+'? A mensalidade e as presenças deste aluno também serão removidas. O nome permanecerá nas convocações já salvas.',()=>{
+      if(!Jene.deleteStudent(selectedId))return false;
+      details.close();render();Jene.toast("Aluno excluído do armazenamento local.");
+    });
+  });
   form.addEventListener("submit",e=>{
     e.preventDefault();updateAge();
     const text=name=>field(name).value.trim(),number=name=>text(name)===""?null:Number(text(name));
@@ -83,8 +90,9 @@
       const day=student.mensalidade.vencimento;
       student.due=day?"2026-09-"+String(Math.min(day,30)).padStart(2,"0"):"";
     }
-    const saved=Jene.saveStudent(student);modal.close();render();showDetails(saved);
-    Jene.toast(previous?"Cadastro atualizado nesta sessão.":"Aluno cadastrado nesta demonstração.");
+    const saved=Jene.saveStudent(student);if(!saved)return;
+    modal.close();render();showDetails(saved);
+    Jene.toast(previous?"Cadastro atualizado neste navegador.":"Aluno salvo neste navegador.");
   });
   render();if(new URLSearchParams(location.search).get("novo")==="1")openForm();
 })();

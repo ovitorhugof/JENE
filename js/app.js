@@ -26,11 +26,19 @@ window.Jene = (() => {
       parentesco:(s.id-1)%2 ? "Pai" : "Mãe",telefone:"(35) 99999-"+String(999+s.id)},
     uniforme:{numeroPreferido:s.id+6,camisa:(s.id-1)%2 ? "P" : "Infantil 14",short:"P"}})));
   const key = "jene-demo-v1";
+  let stored=null,storageError="";
   let state = {students:seed.map(s=>({...s})), attendance:{}, matches:[]};
   try {
-    const saved = JSON.parse(sessionStorage.getItem(key));
-    if (saved && Array.isArray(saved.students) && saved.attendance) state = saved;
-  } catch { /* A demonstração também funciona sem armazenamento disponível. */ }
+    stored=localStorage.getItem(key);
+    const source=stored===null?sessionStorage.getItem(key):stored;
+    const saved=source===null?null:JSON.parse(source);
+    if(source!==null){
+      if(!saved || !Array.isArray(saved.students) || !saved.students.every(s=>s&&s.id!=null&&typeof s.name==="string"&&typeof s.category==="string") || !saved.attendance || typeof saved.attendance!=="object" || Array.isArray(saved.attendance) || !Object.values(saved.attendance).every(v=>v&&typeof v==="object"&&!Array.isArray(v)) || (saved.matches!==undefined&&(!Array.isArray(saved.matches)||!saved.matches.every(m=>m&&m.id!=null&&Array.isArray(m.calledPlayers)&&["opponent","category","date","matchTime","location"].every(k=>typeof m[k]==="string")))))throw new Error("invalid-data");
+      state=saved;
+    }
+  } catch {
+    storageError="Não foi possível carregar os dados locais. Os registros existentes foram preservados; a gravação está bloqueada. Verifique o armazenamento do navegador e recarregue a página.";
+  }
   // Migra cadastros antigos sem inventar nascimento ou responsável.
   state.students = state.students.filter(s=>categories.includes(s.category)).map(normalizeStudent);
   state.matches = Array.isArray(state.matches) ? state.matches.filter(m=>categories.includes(m.category)) : [];
@@ -40,6 +48,10 @@ window.Jene = (() => {
       if(!state.students.some(s=>String(s.id)===id))delete state.attendance[k][id];
     });
   });
+  if(!storageError&&stored===null){
+    try{stored=JSON.stringify(state);localStorage.setItem(key,stored);}
+    catch{stored=null;storageError="Não foi possível iniciar o armazenamento local. Verifique as permissões e o espaço do navegador e recarregue a página.";}
+  }
   const calculateAge = (value, today = new Date()) => {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
     const [year,month,day] = value.split("-").map(Number);
@@ -51,15 +63,39 @@ window.Jene = (() => {
   };
   // Ponto único de gravação do cadastro para uma futura fonte de dados.
   function saveStudent(student) {
-    const index=state.students.findIndex(s=>s.id===student.id);
     const normalized=normalizeStudent(student);
-    if(index<0)state.students.push(normalized);else state.students[index]=normalized;
-    persist();return normalized;
+    return update(next=>{
+      const index=next.students.findIndex(s=>s.id===student.id);
+      if(index<0)next.students.push(normalized);else next.students[index]=normalized;
+    })?normalized:null;
   }
-  const persist = () => {
-    try { sessionStorage.setItem(key, JSON.stringify(state)); return true; }
-    catch { toast("Armazenamento indisponível. Alterações válidas apenas nesta página."); return false; }
-  };
+  // Só altera o estado da página depois que o navegador confirma a gravação.
+  function update(change){
+    if(storageError){toast(storageError);return false;}
+    try{
+      if(localStorage.getItem(key)!==stored){toast("Os dados foram alterados em outra aba. Recarregue esta página antes de salvar para não sobrescrever alterações.");return false;}
+      const next=JSON.parse(JSON.stringify(state));change(next);
+      const serialized=JSON.stringify(next);localStorage.setItem(key,serialized);
+      Object.assign(state,next);stored=serialized;return true;
+    }catch{toast("Não foi possível salvar. Nenhuma alteração foi aplicada. Verifique o espaço e as permissões do navegador e tente novamente.");return false;}
+  }
+  function deleteStudent(id){
+    return update(next=>{
+      const student=next.students.find(s=>s.id===id);
+      next.matches.forEach(m=>{if(m.calledPlayers.some(player=>String(player)===String(id))){m.playerNames=m.playerNames||{};m.playerNames[id]=m.playerNames[id]||student.name;}});
+      next.students=next.students.filter(s=>s.id!==id);
+      Object.values(next.attendance).forEach(marks=>delete marks[id]);
+    });
+  }
+  function saveMatch(match){return update(next=>{const index=next.matches.findIndex(m=>m.id===match.id);if(index<0)next.matches.push(match);else next.matches[index]=match;});}
+  function confirmAction(message,action){
+    const modal=document.createElement("dialog");modal.setAttribute("aria-labelledby","confirm-title");
+    modal.innerHTML='<h2 id="confirm-title">Confirmar ação</h2><p class="helper"></p><div class="dialog-actions"><button type="button" class="button secondary" data-cancel>Cancelar</button><button type="button" class="button danger" data-confirm>Confirmar</button></div>';
+    modal.querySelector("p").textContent=message;document.body.append(modal);
+    modal.querySelector("[data-cancel]").onclick=()=>modal.close();
+    modal.querySelector("[data-confirm]").onclick=()=>{if(action()!==false)modal.close();};
+    modal.addEventListener("close",()=>modal.remove());modal.showModal();modal.querySelector("[data-cancel]").focus();
+  }
   const escape = value => String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const money = value => value.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
   const localDate = () => { const d=new Date(); return [d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-"); };
@@ -89,6 +125,8 @@ window.Jene = (() => {
   };
   const icon = name => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(paths[name]||paths.check)+'</svg>';
   function toast(message) {
+    const open=[...document.querySelectorAll("dialog[open]")].pop();
+    if(open){let feedback=open.querySelector(".dialog-feedback");if(!feedback){feedback=document.createElement("p");feedback.className="dialog-feedback helper";feedback.setAttribute("role","status");open.prepend(feedback);}feedback.textContent=message;feedback.scrollIntoView({block:"nearest"});}
     const el=document.getElementById("toast"); el.textContent=message; el.hidden=false;
     clearTimeout(toast.timer); toast.timer=setTimeout(()=>{el.hidden=true;},4500);
   }
@@ -115,10 +153,12 @@ window.Jene = (() => {
   }
   function dialog(id) {
     const el=document.getElementById(id);
+    el.addEventListener("close",()=>el.querySelector(".dialog-feedback")?.remove());
     el.querySelectorAll(".close-dialog").forEach(b=>b.addEventListener("click",()=>el.close()));
     return el;
   }
-  return {categories,state,persist,saveStudent,calculateAge,escape,money,date,localDate,badge,identity,icon,toast,summary,stat,overdueText,filters,dialog};
+  if(storageError)document.addEventListener("DOMContentLoaded",()=>{const warning=document.createElement("p");warning.className="storage-warning";warning.setAttribute("role","alert");warning.textContent=storageError;document.getElementById("main").prepend(warning);});
+  return {categories,state,update,saveStudent,deleteStudent,saveMatch,confirmAction,calculateAge,escape,money,date,localDate,badge,identity,icon,toast,summary,stat,overdueText,filters,dialog};
 })();
 document.querySelectorAll("[data-icon]").forEach(el=>{el.innerHTML=Jene.icon(el.dataset.icon);});
 const navItems=[["index","Início","home"],["alunos","Alunos","users"],["mensalidades","Mensalidades","wallet"],["chamada","Chamada","check"]];
