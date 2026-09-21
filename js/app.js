@@ -1,20 +1,17 @@
 "use strict";
 window.Jene = (() => {
-  const categories = ["Sub-9", "Sub-11", "Sub-13", "Sub-15", "Sub-17"];
+  const categories = ["Sub-9", "Sub-11", "Sub-13"];
   const seed = [
     {id:1,name:"Carlos Eduardo",category:"Sub-13",status:"Atrasado",amount:100,due:"2026-09-04"},
     {id:2,name:"João Vitor",category:"Sub-11",status:"Atrasado",amount:100,due:"2026-09-10"},
-    {id:3,name:"Matheus Lima",category:"Sub-15",status:"Pendente",amount:100,due:"2026-09-20"},
     {id:4,name:"Pedro Henrique",category:"Sub-13",status:"Pago",amount:100,due:"2026-09-10",paidAt:"2026-09-08"},
     {id:5,name:"Lucas Gabriel",category:"Sub-9",status:"Pago",amount:100,due:"2026-09-10",paidAt:"2026-09-08"},
-    {id:6,name:"Rafael Santos",category:"Sub-17",status:"Pendente",amount:100,due:"2026-09-20"},
     {id:7,name:"Gabriel Oliveira",category:"Sub-13",status:"Isento",amount:0,due:"2026-09-10"},
     {id:8,name:"Davi Souza",category:"Sub-11",status:"Pago",amount:100,due:"2026-09-10",paidAt:"2026-09-08"},
-    {id:9,name:"Miguel Costa",category:"Sub-15",status:"Pago",amount:100,due:"2026-09-10",paidAt:"2026-09-08"},
     {id:10,name:"Arthur Ribeiro",category:"Sub-13",status:"Pendente",amount:100,due:"2026-09-20"}
   ];
   // Cadastro independente da cobrança demonstrativa (status, amount, due).
-  const birthdays = ["2013-06-12","2015-04-23","2011-08-05","2013-03-14","2017-07-19","2009-11-02","2013-01-30","2015-09-08","2011-12-15","2013-05-21"];
+  const birthdays = ["2013-06-12","2015-04-23","2013-03-14","2017-07-19","2013-01-30","2015-09-08","2013-05-21"];
   function normalizeStudent(s) {
     return {...s, dataNascimento:s.dataNascimento || "", telefone:s.telefone || "",
       statusAluno:s.statusAluno || "ativo", dataEntrada:s.dataEntrada || "",
@@ -25,17 +22,24 @@ window.Jene = (() => {
       observacoes:s.observacoes || ""};
   }
   seed.forEach((s,i)=>Object.assign(s,normalizeStudent({...s,dataNascimento:birthdays[i],
-    dataEntrada:"2025-02-10",responsavel:{nome:["Ana","Marcos","Juliana","Marcos","Cláudia","Paulo","Fernanda","Renata","José","Luciana"][i]+" "+s.name.split(" ").pop(),
-      parentesco:i%2 ? "Pai" : "Mãe",telefone:"(35) 99999-"+String(1000+i)},
-    uniforme:{numeroPreferido:i+7,camisa:i%2 ? "P" : "Infantil 14",short:"P"}})));
+    dataEntrada:"2025-02-10",responsavel:{nome:["Ana","Marcos","Juliana","Marcos","Cláudia","Paulo","Fernanda","Renata","José","Luciana"][s.id-1]+" "+s.name.split(" ").pop(),
+      parentesco:(s.id-1)%2 ? "Pai" : "Mãe",telefone:"(35) 99999-"+String(999+s.id)},
+    uniforme:{numeroPreferido:s.id+6,camisa:(s.id-1)%2 ? "P" : "Infantil 14",short:"P"}})));
   const key = "jene-demo-v1";
-  let state = {students:seed.map(s=>({...s})), attendance:{}};
+  let state = {students:seed.map(s=>({...s})), attendance:{}, matches:[]};
   try {
     const saved = JSON.parse(sessionStorage.getItem(key));
     if (saved && Array.isArray(saved.students) && saved.attendance) state = saved;
   } catch { /* A demonstração também funciona sem armazenamento disponível. */ }
   // Migra cadastros antigos sem inventar nascimento ou responsável.
-  state.students = state.students.map(normalizeStudent);
+  state.students = state.students.filter(s=>categories.includes(s.category)).map(normalizeStudent);
+  state.matches = Array.isArray(state.matches) ? state.matches.filter(m=>categories.includes(m.category)) : [];
+  Object.keys(state.attendance).forEach(k=>{
+    if(!categories.some(c=>k.endsWith("_"+c)))delete state.attendance[k];
+    else Object.keys(state.attendance[k]).forEach(id=>{
+      if(!state.students.some(s=>String(s.id)===id))delete state.attendance[k][id];
+    });
+  });
   const calculateAge = (value, today = new Date()) => {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
     const [year,month,day] = value.split("-").map(Number);
@@ -53,8 +57,8 @@ window.Jene = (() => {
     persist();return normalized;
   }
   const persist = () => {
-    try { sessionStorage.setItem(key, JSON.stringify(state)); }
-    catch { toast("Armazenamento indisponível. Alterações válidas apenas nesta página."); }
+    try { sessionStorage.setItem(key, JSON.stringify(state)); return true; }
+    catch { toast("Armazenamento indisponível. Alterações válidas apenas nesta página."); return false; }
   };
   const escape = value => String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const money = value => value.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});

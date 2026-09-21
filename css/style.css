@@ -26,3 +26,15 @@ dialog{width:calc(100% - 24px);max-width:480px;max-height:92dvh;overflow:auto;ov
 @media(forced-colors:active){.badge,.stat-symbol,.nav-link[aria-current=page]{border:1px solid CanvasText}.presence-option input:checked+span{outline:2px solid Highlight}}
 
 @media(max-width:400px){.income-icon{display:none}.income{padding:24px}.payment-details{align-items:flex-start;flex-direction:column;gap:5px}.stat-hint{font-size:10px}.quick-copy small{font-size:11px}}
+
+/* Jogos usa os mesmos cards, formulários e diálogos do cadastro. */
+.desktop-games{display:none}
+.match-card{display:flex;flex-direction:column;align-items:flex-start;gap:12px;text-align:left;min-width:0;overflow-wrap:anywhere;font-size:14px}
+.match-card>strong{font-size:18px}.match-called{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;color:var(--green-ink);font-weight:650}
+.callup-row{display:flex;align-items:center;gap:14px;padding:16px;min-height:64px;border-bottom:1px solid var(--line);cursor:pointer}
+.callup-row:last-child{border:0}.callup-row:has(input:checked){background:var(--green-soft)}
+.student-dialog .callup-row input{width:24px;height:24px;min-height:24px;flex-shrink:0;margin:0;accent-color:var(--green)}
+.callup-row span{min-width:0;overflow-wrap:anywhere}.callup-row strong{font-size:14px}.callup-row small{display:block;color:var(--muted);margin-top:3px}
+.field-error,dialog p.field-error{display:block;color:var(--red);font-size:13px;margin:8px 0 0}
+[aria-invalid=true]{border-color:var(--red)}.match-roster{margin-top:24px}.match-roster ol{padding-left:26px}.match-roster li{padding:10px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere;font-size:14px}
+@media(min-width:1000px){.desktop-games{display:flex}}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#153e35">
+    <meta name="description" content="JENE Gestão — gestão simples da escolinha de futebol.">
+    <title>Jogos | JENE Gestão</title>
+    <link rel="icon" href="assets/favicon-jene.png?v=2" type="image/png">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/app.js" defer></script>
+    <script src="js/jogos.js" defer></script>
+    <script src="js/ui.js" defer></script>
+</head>
+
+<body data-page="jogos"><a class="skip-link" href="#main">Pular para o conteúdo</a>
+    <header class="site-header">
+        <div class="header-inner"><a class="brand" href="index.html" aria-label="JENE Gestão — início"><img
+                    src="assets/logo-jene.png" alt="" width="56" height="56"><span><strong>JENE
+                        <span>Gestão</span></strong><small>Gestão da escolinha</small></span></a><span
+                class="demo-label"><span></span>Versão demonstração</span></div>
+    </header>
+    <main class="container" id="main">
+        <section class="page-heading">
+            <div><p class="eyebrow">JOGOS E CONVOCAÇÕES</p><h1>Jogos</h1><p>Organize as partidas e consulte os convocados.</p></div>
+            <button class="button" id="new-match" type="button">+ Novo jogo</button>
+        </section>
+        <p class="list-caption" id="match-count" aria-live="polite"></p>
+        <section class="payment-list" id="match-list" aria-label="Jogos salvos"></section>
+        <dialog id="match-dialog" class="student-dialog" aria-labelledby="match-title">
+            <form id="match-form" novalidate>
+                <div class="dialog-heading"><h2 id="match-title" tabindex="-1">Novo jogo</h2><button type="button" class="icon-button close-dialog" aria-label="Fechar cadastro">×</button></div>
+                <p>Campos com * são obrigatórios. Selecione ao menos um jogador.</p>
+                <fieldset><legend>1. Informações do jogo</legend><div class="student-fields">
+                    <label class="full-field">Adversário *<input name="opponent" required maxlength="100" aria-describedby="error-opponent"><span class="field-error" id="error-opponent" hidden></span></label>
+                    <label>Categoria *<select name="category" required aria-describedby="error-category"></select><span class="field-error" id="error-category" hidden></span></label>
+                    <label>Data *<input name="date" type="date" required aria-describedby="error-date"><span class="field-error" id="error-date" hidden></span></label>
+                    <label>Horário do jogo *<input name="matchTime" type="time" required aria-describedby="error-matchTime"><span class="field-error" id="error-matchTime" hidden></span></label>
+                    <label>Horário de chegada<input name="arrivalTime" type="time"></label>
+                    <label class="full-field">Local *<input name="location" required maxlength="200" aria-describedby="error-location"><span class="field-error" id="error-location" hidden></span></label>
+                </div></fieldset>
+                <fieldset><legend>2. Transporte e orientações</legend><div class="student-fields">
+                    <label>Transporte<select name="transport"><option value="">Selecionar</option><option>Van</option><option>Ônibus</option><option>Carros particulares</option><option>A pé</option><option>Transporte próprio</option><option>Outro</option></select></label>
+                    <label id="custom-transport" hidden>Descreva o transporte *<input name="transportOther" maxlength="150" disabled aria-describedby="error-transportOther"><span class="field-error" id="error-transportOther" hidden></span></label>
+                    <label class="full-field">Observações<textarea name="notes" rows="3" maxlength="2000"></textarea></label>
+                </div></fieldset>
+                <fieldset><legend>3. Convocação</legend>
+                    <p id="callup-count" aria-live="polite">Convocados: 0 de 0</p>
+                    <div class="list-panel" id="callup-list"></div>
+                    <p id="error-callup" class="field-error" role="alert" hidden>Selecione ao menos um jogador para a convocação.</p>
+                </fieldset>
+                <div class="dialog-actions student-actions"><button type="button" class="button secondary close-dialog">Cancelar</button><button type="submit" class="button">Salvar jogo</button></div>
+            </form>
+        </dialog>
+        <dialog id="match-details" class="student-dialog" aria-labelledby="match-details-title">
+            <div class="dialog-heading"><h2 id="match-details-title" tabindex="-1">Detalhes do jogo</h2><button type="button" class="icon-button close-dialog" aria-label="Fechar detalhes">×</button></div>
+            <div id="match-details-content"></div>
+            <div class="dialog-actions"><button type="button" class="button secondary close-dialog">Voltar aos jogos</button></div>
+        </dialog>
+        <p class="demo-note">Fase de testes · Jogos salvos nesta aba durante a sessão. Fechar a aba encerra esses registros.</p><noscript>Ative o JavaScript para usar
+            esta demonstração.</noscript>
+    </main>
+    <nav class="bottom-nav" aria-label="Navegação principal" id="main-nav"></nav>
+    <div class="toast" role="status" id="toast" hidden></div>
+</body>
+
+</html>

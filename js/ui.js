@@ -2,13 +2,14 @@
 // Melhorias de apresentação compartilhadas, sem dependências externas.
 (() => {
   const page=document.body.dataset.page;
-  const titles={index:"Visão geral",alunos:"Alunos",mensalidades:"Mensalidades",chamada:"Chamada"};
+  const titles={index:"Visão geral",alunos:"Alunos",mensalidades:"Mensalidades",chamada:"Chamada",jogos:"Jogos"};
   const header=document.querySelector(".header-inner");
   const context=document.createElement("div");
   context.className="header-context";
   context.innerHTML='<span>Área de gestão</span>'+Jene.icon("chevron")+'<strong>'+titles[page]+'</strong>';
   header.querySelector(".brand").after(context);
   const nav=document.getElementById("main-nav");
+  nav.insertAdjacentHTML("beforeend",'<a class="nav-link desktop-games" href="jogos.html" '+(page==="jogos"?'aria-current="page"':'')+'>'+Jene.icon("calendar")+'<span>Jogos</span></a>');
   nav.insertAdjacentHTML("afterbegin",'<span class="nav-caption">PRINCIPAL</span>');
   nav.insertAdjacentHTML("beforeend",'<div class="nav-footer">'+Jene.icon("shield")+'<strong>Seu time bem cuidado.</strong><p>Mais organização fora de campo.<br>Mais futebol dentro dele.</p><span>JENE Gestão · Demonstração</span></div>');
   document.querySelectorAll(".close-dialog").forEach(button=>{if(button.classList.contains("icon-button"))button.innerHTML=Jene.icon("close");});
@@ -20,7 +21,7 @@
   document.querySelectorAll(".quick-action").forEach((el,index)=>{
     const label=el.children[1];
     label.className="quick-copy";
-    label.insertAdjacentHTML("beforeend",'<small>'+["Acompanhe os recebimentos","Registre a presença da turma","Traga mais um atleta para o time"][index]+'</small>');
+    label.insertAdjacentHTML("beforeend",'<small>'+["Acompanhe os recebimentos","Registre a presença da turma","Traga mais um atleta para o time","Organize os jogos e as convocações"][index]+'</small>');
     el.lastElementChild.innerHTML=Jene.icon("arrow");
   });
   if(page==="index"){
