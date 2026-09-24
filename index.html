@@ -14,6 +14,7 @@
     <script src="js/services/auth-service.js" defer></script>
     <script src="js/services/categories-service.js" defer></script>
     <script src="js/services/students-service.js" defer></script>
+    <script src="js/services/payments-service.js" defer></script>
     <script src="js/app.js" defer></script>
     <script src="js/ui.js" defer></script>
 </head>
@@ -23,7 +24,7 @@
         <div class="header-inner"><a class="brand" href="index.html" aria-label="JENE Gestão — início"><img
                     src="assets/logo-jene.png" alt="" width="56" height="56"><span><strong>JENE
                         <span>Gestão</span></strong><small>Gestão da escolinha</small></span></a><span
-                class="demo-label"><span></span>Versão demonstração</span></div>
+                class="demo-label"><span></span>Supabase conectado</span></div>
     </header>
     <main class="container" id="main">
         <section class="page-heading">
@@ -31,13 +32,12 @@
                 <p class="eyebrow">VISÃO GERAL</p>
                 <h1>Visão geral</h1>
                 <p>Acompanhe o dia a dia da escolinha.</p>
-            </div><span class="month">Setembro de 2026</span>
+            </div><span class="month">Carregando mês...</span>
         </section>
         <section class="stats" aria-label="Resumo da gestão" id="home-stats"></section>
         <div class="overview-grid">
         <section class="income">
-            <div><span>Recebido neste mês</span><strong id="income-value">R$ 6.300,00</strong><span>Referente às
-                    mensalidades de setembro</span></div><span class="income-icon" data-icon="wallet"></span>
+            <div><span>Recebido neste mês</span><strong id="income-value">R$ 0,00</strong><span id="income-reference">Carregando mensalidades...</span></div><span class="income-icon" data-icon="wallet"></span>
         </section>
         <section class="actions-panel">
             <div class="section-heading">
@@ -60,8 +60,8 @@
             </div>
             <div class="list-panel" id="attention-list"></div>
         </section>
-        <p class="demo-note">Fase de testes · Dados salvos neste navegador. Limpar os dados do site apaga os registros.</p><noscript>Ative o JavaScript para usar
-            esta demonstração.</noscript>
+        <p class="demo-note">Fase de testes · Dados persistidos com segurança no Supabase.</p><noscript>Ative o JavaScript para usar
+            esta aplicação.</noscript>
     </main>
     <nav class="bottom-nav" aria-label="Navegação principal" id="main-nav"></nav>
     <div class="toast" role="status" id="toast" hidden></div>

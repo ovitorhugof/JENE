@@ -24,13 +24,13 @@ Jene.ready.then(() => {
       return;
     }
     const students = Jene.sortStudents(
-      Jene.state.students.filter(student => (category === "Todos" || student.category === category) && normalize(student.name).includes(normalize(query))),
+      Jene.students.filter(student => (category === "Todos" || student.category === category) && normalize(student.name).includes(normalize(query))),
       document.getElementById("student-sort").value
     );
-    const active = Jene.state.students.filter(student => student.statusAluno === "ativo").length;
+    const active = Jene.students.filter(student => student.statusAluno === "ativo").length;
     document.getElementById("active-count").textContent = active + (active === 1 ? " aluno ativo" : " alunos ativos");
     document.getElementById("student-count").textContent = students.length + (students.length === 1 ? " aluno" : " alunos") + " · Toque para ver os detalhes";
-    list.innerHTML = students.map(student => '<button type="button" class="student-row student-open" data-student="' + Jene.escape(student.id) + '" aria-label="Ver detalhes de ' + Jene.escape(student.name) + '">' + Jene.identity(student) + '<span class="student-badges"><span class="badge student-status">' + Jene.escape(statusLabels[student.statusAluno] || student.statusAluno) + '</span></span><span class="row-arrow">' + Jene.icon("chevron") + "</span></button>").join("") || '<p class="empty">' + Jene.icon("users") + (Jene.state.students.length ? "Nenhum aluno encontrado. Tente outro nome ou categoria." : "Nenhum aluno cadastrado. Use “Novo aluno” para começar.") + "</p>";
+    list.innerHTML = students.map(student => '<button type="button" class="student-row student-open" data-student="' + Jene.escape(student.id) + '" aria-label="Ver detalhes de ' + Jene.escape(student.name) + '">' + Jene.identity(student) + '<span class="student-badges"><span class="badge student-status">' + Jene.escape(statusLabels[student.statusAluno] || student.statusAluno) + '</span></span><span class="row-arrow">' + Jene.icon("chevron") + "</span></button>").join("") || '<p class="empty">' + Jene.icon("users") + (Jene.students.length ? "Nenhum aluno encontrado. Tente outro nome ou categoria." : "Nenhum aluno cadastrado. Use “Novo aluno” para começar.") + "</p>";
   }
 
   Jene.filters(document.getElementById("category-filters"), ["Todos", ...Jene.categories].map(value => [value, value]), category, value => { category = value; render(); });
@@ -110,20 +110,20 @@ Jene.ready.then(() => {
   }
 
   function replaceStudent(saved) {
-    const index = Jene.state.students.findIndex(student => String(student.id) === String(saved.id));
-    if (index < 0) Jene.state.students.push(saved); else Jene.state.students[index] = saved;
+    const index = Jene.students.findIndex(student => String(student.id) === String(saved.id));
+    if (index < 0) Jene.students.push(saved); else Jene.students[index] = saved;
   }
 
   list.addEventListener("click", event => {
     const button = event.target.closest("[data-student]");
-    if (button) showDetails(Jene.state.students.find(student => String(student.id) === button.dataset.student));
+    if (button) showDetails(Jene.students.find(student => String(student.id) === button.dataset.student));
   });
   document.getElementById("edit-student").addEventListener("click", () => {
     details.close();
-    openForm(Jene.state.students.find(student => String(student.id) === String(selectedId)));
+    openForm(Jene.students.find(student => String(student.id) === String(selectedId)));
   });
   document.getElementById("delete-student").addEventListener("click", () => {
-    const student = Jene.state.students.find(item => String(item.id) === String(selectedId));
+    const student = Jene.students.find(item => String(item.id) === String(selectedId));
     if (!student) return;
     Jene.confirmAction("Desativar " + student.name + "? O cadastro e o histórico serão preservados, mas o aluno ficará inativo.", async () => {
       try {
@@ -149,7 +149,7 @@ Jene.ready.then(() => {
     ["name", "responsavelNome", "responsavelTelefone"].forEach(name => { if (field(name).required && !text(name)) field(name).setCustomValidity("Preencha este campo."); });
     if (Jene.calculateAge(text("dataNascimento")) === null) field("dataNascimento").setCustomValidity("Informe uma data de nascimento válida, até hoje.");
     if (!form.reportValidity()) return;
-    const previous = Jene.state.students.find(student => String(student.id) === String(editingId));
+    const previous = Jene.students.find(student => String(student.id) === String(editingId));
     const student = {
       name: text("name"), categoryId: text("category"), dataNascimento: text("dataNascimento"), telefone: text("telefone"), statusAluno: text("statusAluno"),
       responsavel: { nome: text("responsavelNome"), parentesco: text("parentesco"), telefone: text("responsavelTelefone"), telefoneAlternativo: text("telefoneAlternativo") },

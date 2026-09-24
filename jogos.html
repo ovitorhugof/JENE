@@ -14,6 +14,7 @@
     <script src="js/services/auth-service.js" defer></script>
     <script src="js/services/categories-service.js" defer></script>
     <script src="js/services/students-service.js" defer></script>
+    <script src="js/services/matches-service.js" defer></script>
     <script src="js/app.js" defer></script>
     <script src="js/jogos.js" defer></script>
     <script src="js/ui.js" defer></script>
@@ -24,7 +25,7 @@
         <div class="header-inner"><a class="brand" href="index.html" aria-label="JENE Gestão — início"><img
                     src="assets/logo-jene.png" alt="" width="56" height="56"><span><strong>JENE
                         <span>Gestão</span></strong><small>Gestão da escolinha</small></span></a><span
-                class="demo-label"><span></span>Versão demonstração</span></div>
+                class="demo-label"><span></span>Supabase conectado</span></div>
     </header>
     <main class="container" id="main">
         <section class="page-heading">
@@ -63,8 +64,8 @@
             <div id="match-details-content"></div>
             <div class="dialog-actions details-actions"><button type="button" class="button" id="export-match">Exportar convocação</button><button type="button" class="button secondary" id="edit-match">Editar jogo</button><button type="button" class="button danger" id="delete-match">Excluir jogo</button><button type="button" class="button secondary close-dialog">Voltar aos jogos</button></div>
         </dialog>
-        <p class="demo-note">Fase de testes · Dados salvos neste navegador. Limpar os dados do site apaga os registros.</p><noscript>Ative o JavaScript para usar
-            esta demonstração.</noscript>
+        <p class="demo-note">Fase de testes · Jogos e convocações persistidos com segurança no Supabase.</p><noscript>Ative o JavaScript para usar
+            esta aplicação.</noscript>
     </main>
     <nav class="bottom-nav" aria-label="Navegação principal" id="main-nav"></nav>
     <div class="toast" role="status" id="toast" hidden></div>

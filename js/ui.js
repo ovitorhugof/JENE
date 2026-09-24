@@ -12,7 +12,7 @@ Jene.ready.then(() => {
   nav.insertAdjacentHTML("beforeend",'<a class="nav-link desktop-games" href="jogos.html" '+(page==="jogos"?'aria-current="page"':'')+'>'+Jene.icon("calendar")+'<span>Jogos</span></a>');
   nav.insertAdjacentHTML("beforeend",'<button class="nav-link logout-action" type="button">'+Jene.icon("logout")+'<span>Sair</span></button>');
   nav.insertAdjacentHTML("afterbegin",'<span class="nav-caption">PRINCIPAL</span>');
-  nav.insertAdjacentHTML("beforeend",'<div class="nav-footer">'+Jene.icon("shield")+'<strong>Seu time bem cuidado.</strong><p>Mais organização fora de campo.<br>Mais futebol dentro dele.</p><span>JENE Gestão · Demonstração</span></div>');
+  nav.insertAdjacentHTML("beforeend",'<div class="nav-footer">'+Jene.icon("shield")+'<strong>Seu time bem cuidado.</strong><p>Mais organização fora de campo.<br>Mais futebol dentro dele.</p><span>JENE Gestão · Supabase</span></div>');
   nav.querySelector(".logout-action").addEventListener("click",async event=>{
     const button=event.currentTarget;button.disabled=true;
     try{await JeneAuth.signOut();location.replace("login.html");}
@@ -32,7 +32,7 @@ Jene.ready.then(() => {
   });
   if(page==="index"){
     const summary=Jene.summary(),percent=summary.expected>0?Math.min(100,Math.round(summary.received/summary.expected*100)):0;
-    document.querySelector(".income").insertAdjacentHTML("beforeend",'<div class="income-progress"><div><span>Do total previsto</span><strong>'+percent+'%</strong></div><progress max="100" value="'+percent+'" aria-label="Percentual recebido do total previsto"></progress><p>Previsto: '+Jene.money(summary.expected)+' · Totais ilustrativos</p><a href="mensalidades.html">Acompanhar mensalidades '+Jene.icon("arrow")+'</a></div>');
+    document.querySelector(".income").insertAdjacentHTML("beforeend",'<div class="income-progress"><div><span>Do total previsto</span><strong>'+percent+'%</strong></div><progress max="100" value="'+percent+'" aria-label="Percentual recebido do total previsto"></progress><p>Previsto: '+Jene.money(summary.expected)+' · Dados do mês atual</p><a href="mensalidades.html">Acompanhar mensalidades '+Jene.icon("arrow")+'</a></div>');
   }
   const search=document.getElementById("student-search");
   if(search){

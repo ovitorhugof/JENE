@@ -24,7 +24,6 @@
   function mapDatabaseStudent(row) {
     const category = categoriesById.get(String(row.category_id));
     const feeType = row.fee_type || "normal";
-    const amount = feeType === "isento" ? 0 : row.discounted_fee_amount ?? row.fee_amount ?? 0;
     return {
       id: row.id,
       name: row.full_name || "",
@@ -51,10 +50,7 @@
         camisa: row.shirt_size || "",
         short: row.shorts_size || ""
       },
-      observacoes: row.notes || "",
-      status: feeType === "isento" ? "Isento" : "Pendente",
-      amount,
-      due: ""
+      observacoes: row.notes || ""
     };
   }
 
