@@ -1,5 +1,5 @@
 "use strict";
-(() => {
+Jene.ready.then(() => {
   const params=new URLSearchParams(location.search);
   let filter=params.get("filtro")==="abertas"?"abertas":"Todas",studentId=params.get("aluno"),selected=null;
   const list=document.getElementById("payment-list");
@@ -39,5 +39,5 @@
     modal.close();render();Jene.toast("Pagamento salvo neste navegador.");
   });
   render();
-})();
+});
 

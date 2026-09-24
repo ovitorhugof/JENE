@@ -1,6 +1,6 @@
 "use strict";
 // Melhorias de apresentação compartilhadas, sem dependências externas.
-(() => {
+Jene.ready.then(() => {
   const page=document.body.dataset.page;
   const titles={index:"Visão geral",alunos:"Alunos",mensalidades:"Mensalidades",chamada:"Chamada",jogos:"Jogos"};
   const header=document.querySelector(".header-inner");
@@ -10,13 +10,19 @@
   header.querySelector(".brand").after(context);
   const nav=document.getElementById("main-nav");
   nav.insertAdjacentHTML("beforeend",'<a class="nav-link desktop-games" href="jogos.html" '+(page==="jogos"?'aria-current="page"':'')+'>'+Jene.icon("calendar")+'<span>Jogos</span></a>');
+  nav.insertAdjacentHTML("beforeend",'<button class="nav-link logout-action" type="button">'+Jene.icon("logout")+'<span>Sair</span></button>');
   nav.insertAdjacentHTML("afterbegin",'<span class="nav-caption">PRINCIPAL</span>');
   nav.insertAdjacentHTML("beforeend",'<div class="nav-footer">'+Jene.icon("shield")+'<strong>Seu time bem cuidado.</strong><p>Mais organização fora de campo.<br>Mais futebol dentro dele.</p><span>JENE Gestão · Demonstração</span></div>');
+  nav.querySelector(".logout-action").addEventListener("click",async event=>{
+    const button=event.currentTarget;button.disabled=true;
+    try{await JeneAuth.signOut();location.replace("login.html");}
+    catch(error){button.disabled=false;Jene.toast(error.message||"Não foi possível sair. Tente novamente.");}
+  });
   document.querySelectorAll(".close-dialog").forEach(button=>{if(button.classList.contains("icon-button"))button.innerHTML=Jene.icon("close");});
   const addIcon=(selector,name)=>document.querySelectorAll(selector).forEach(el=>el.insertAdjacentHTML("afterbegin",Jene.icon(name)));
   addIcon("#edit-student","edit");addIcon("#student-payments","wallet");addIcon('.details-actions a[href="chamada.html"]',"check");
   addIcon('#student-form button[type="submit"]',"tick");addIcon('#payment-form button[type="submit"]',"tick");
-  document.querySelectorAll("#student-form legend").forEach((el,index)=>el.insertAdjacentHTML("afterbegin",Jene.icon(["users","shield","calendar","wallet","note"][index])));
+  document.querySelectorAll("#student-form legend").forEach((el,index)=>el.insertAdjacentHTML("afterbegin",Jene.icon(["users","shield","calendar","wallet","users","note"][index])));
   document.querySelectorAll(".month:not([data-icon])").forEach(el=>el.insertAdjacentHTML("afterbegin",Jene.icon("calendar")));
   document.querySelectorAll(".quick-action").forEach((el,index)=>{
     const label=el.children[1];
@@ -36,4 +42,4 @@
     search.addEventListener("input",()=>{clear.hidden=!search.value;});
     clear.addEventListener("click",()=>{search.value="";search.dispatchEvent(new Event("input",{bubbles:true}));search.focus();});
   }
-})();
+});

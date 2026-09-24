@@ -1,5 +1,5 @@
 "use strict";
-(() => {
+Jene.ready.then(() => {
   const form=document.getElementById("match-form"),list=document.getElementById("match-list");
   const modal=Jene.dialog("match-dialog"),details=Jene.dialog("match-details");
   const field=name=>form.elements.namedItem(name),text=name=>field(name).value.trim();
@@ -100,4 +100,4 @@
     modal.close();render();showDetails(match);Jene.toast("Jogo e convocação salvos neste navegador.");
   });
   render();
-})();
+});

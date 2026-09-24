@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#153e35">
+    <meta name="description" content="Acesso ao JENE Gestão.">
+    <title>Entrar | JENE Gestão</title>
+    <link rel="icon" href="assets/favicon-jene.png?v=2" type="image/png">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1/dist/umd/supabase.min.js" defer></script>
+    <script src="js/config/supabase.js" defer></script>
+    <script src="js/services/auth-service.js" defer></script>
+    <script src="js/login.js" defer></script>
+</head>
+<body class="auth-pending login-page" data-auth="guest">
+    <main class="login-shell">
+        <section class="login-card" aria-labelledby="login-title">
+            <div class="login-brand"><img src="assets/logo-jene.png" alt="" width="72" height="72"><span><strong>JENE <span>Gestão</span></strong><small>Gestão da escolinha</small></span></div>
+            <div class="login-heading"><p class="eyebrow">ÁREA RESTRITA</p><h1 id="login-title">Bem-vindo de volta</h1><p>Entre com sua conta para continuar.</p></div>
+            <p class="login-feedback" id="login-feedback" role="alert" hidden></p>
+            <form id="login-form" novalidate>
+                <label>E-mail<input type="email" name="email" autocomplete="username" required inputmode="email"></label>
+                <label>Senha<input type="password" name="password" autocomplete="current-password" required></label>
+                <button class="button wide" type="submit">Entrar</button>
+            </form>
+        </section>
+    </main>
+    <noscript>Ative o JavaScript para entrar no sistema.</noscript>
+</body>
+</html>

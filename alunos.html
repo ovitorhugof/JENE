@@ -9,12 +9,17 @@
     <title>Alunos | JENE Gestão</title>
     <link rel="icon" href="assets/favicon-jene.png?v=2" type="image/png">
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1/dist/umd/supabase.min.js" defer></script>
+    <script src="js/config/supabase.js" defer></script>
+    <script src="js/services/auth-service.js" defer></script>
+    <script src="js/services/categories-service.js" defer></script>
+    <script src="js/services/students-service.js" defer></script>
     <script src="js/app.js" defer></script>
     <script src="js/alunos.js" defer></script>
     <script src="js/ui.js" defer></script>
 </head>
 
-<body data-page="alunos"><a class="skip-link" href="#main">Pular para o conteúdo</a>
+<body class="auth-pending" data-auth="protected" data-page="alunos"><a class="skip-link" href="#main">Pular para o conteúdo</a>
     <header class="site-header">
         <div class="header-inner"><a class="brand" href="index.html" aria-label="JENE Gestão — início"><img
                     src="assets/logo-jene.png" alt="" width="56" height="56"><span><strong>JENE
@@ -34,7 +39,7 @@
         <div class="filters" id="category-filters" aria-label="Filtrar por categoria"></div>
         <label class="sort-control">Ordenar alunos<select id="student-sort"><option value="name">Nome A-Z</option><option value="youngest">Mais novos</option><option value="oldest">Mais velhos</option><option value="category">Categoria</option></select></label>
         <p class="list-caption" id="student-count" aria-live="polite"></p>
-        <section class="list-panel" id="student-list" aria-label="Alunos"></section>
+        <section class="list-panel" id="student-list" aria-label="Alunos"><p class="empty loading-state">Carregando alunos…</p></section>
         <dialog id="student-dialog" class="student-dialog" aria-labelledby="student-dialog-title">
             <form id="student-form">
                 <div class="dialog-heading">
@@ -106,7 +111,15 @@
                     </div>
                 </fieldset>
                 <fieldset>
-                    <legend>5. Observações</legend><label>Anotações administrativas<textarea name="observacoes" rows="4"
+                    <legend>5. Uniforme</legend>
+                    <div class="student-fields">
+                        <label>Número preferido<input type="number" name="numeroPreferido" min="0" max="999" step="1" inputmode="numeric"></label>
+                        <label>Tamanho da camisa<input name="camisa" maxlength="30"></label>
+                        <label>Tamanho do short<input name="short" maxlength="30"></label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>6. Observações</legend><label>Anotações administrativas<textarea name="observacoes" rows="4"
                             maxlength="2000"
                             placeholder="Informações do responsável, necessidade de uniforme ou observações de matrícula."></textarea></label>
                 </fieldset>
@@ -122,10 +135,10 @@
             </div>
             <div id="student-details-content"></div>
             <div class="dialog-actions details-actions"><button class="button" id="edit-student" type="button">Editar
-                    aluno</button><button class="button danger" id="delete-student" type="button">Excluir aluno</button><a class="button secondary" id="student-payments">Ver mensalidades</a><a
+                    aluno</button><button class="button danger" id="delete-student" type="button">Desativar aluno</button><a class="button secondary" id="student-payments">Ver mensalidades</a><a
                     class="button secondary" href="chamada.html">Ver presença</a></div>
         </dialog>
-        <p class="demo-note">Fase de testes · Dados salvos neste navegador. Limpar os dados do site apaga os registros.</p><noscript>Ative o JavaScript para usar
+        <p class="demo-note">Alunos e categorias conectados ao Supabase · Os demais módulos permanecem demonstrativos.</p><noscript>Ative o JavaScript para usar
             esta demonstração.</noscript>
     </main>
     <nav class="bottom-nav" aria-label="Navegação principal" id="main-nav"></nav>

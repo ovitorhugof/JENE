@@ -1,5 +1,5 @@
 "use strict";
-(() => {
+Jene.ready.then(() => {
   const date=document.getElementById("attendance-date"),select=document.getElementById("attendance-category"),list=document.getElementById("attendance-list");
   let marks={},dirty=false;
   select.innerHTML=Jene.categories.map(c=>'<option'+(c==="Sub-13"?' selected':"")+'>'+c+'</option>').join("");
@@ -39,4 +39,4 @@
   });
   window.addEventListener("beforeunload",e=>{if(Object.keys(drafts).length){e.preventDefault();e.returnValue="";}});
   render();
-})();
+});

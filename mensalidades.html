@@ -9,12 +9,17 @@
     <title>Mensalidades | JENE Gestão</title>
     <link rel="icon" href="assets/favicon-jene.png?v=2" type="image/png">
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1/dist/umd/supabase.min.js" defer></script>
+    <script src="js/config/supabase.js" defer></script>
+    <script src="js/services/auth-service.js" defer></script>
+    <script src="js/services/categories-service.js" defer></script>
+    <script src="js/services/students-service.js" defer></script>
     <script src="js/app.js" defer></script>
     <script src="js/mensalidades.js" defer></script>
     <script src="js/ui.js" defer></script>
 </head>
 
-<body data-page="mensalidades"><a class="skip-link" href="#main">Pular para o conteúdo</a>
+<body class="auth-pending" data-auth="protected" data-page="mensalidades"><a class="skip-link" href="#main">Pular para o conteúdo</a>
     <header class="site-header">
         <div class="header-inner"><a class="brand" href="index.html" aria-label="JENE Gestão — início"><img
                     src="assets/logo-jene.png" alt="" width="56" height="56"><span><strong>JENE
