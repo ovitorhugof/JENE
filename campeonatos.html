@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#153e35">
+    <meta name="description" content="Campeonatos da JENE Gestão.">
+    <title>Campeonatos | JENE Gestão</title>
+    <link rel="icon" href="assets/favicon-jene.png?v=2" type="image/png">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1/dist/umd/supabase.min.js" defer></script>
+    <script src="js/config/supabase.js" defer></script>
+    <script src="js/services/auth-service.js" defer></script>
+    <script src="js/services/categories-service.js" defer></script>
+    <script src="js/services/students-service.js" defer></script>
+    <script src="js/services/matches-service.js" defer></script>
+    <script src="js/services/championships-service.js" defer></script>
+    <script src="js/app.js" defer></script>
+    <script src="js/campeonatos.js" defer></script>
+    <script src="js/ui.js" defer></script>
+</head>
+<body class="auth-pending" data-auth="protected" data-page="campeonatos"><a class="skip-link" href="#main">Pular para o conteúdo</a>
+    <header class="site-header"><div class="header-inner"><a class="brand" href="index.html" aria-label="JENE Gestão — início"><img src="assets/logo-jene.png" alt="" width="56" height="56"><span><strong>JENE <span>Gestão</span></strong><small>Gestão da escolinha</small></span></a><span class="demo-label"><span></span>Supabase conectado</span></div></header>
+    <main class="container" id="main">
+        <section class="page-heading"><div><p class="eyebrow">COMPETIÇÕES</p><h1>Campeonatos</h1><p>Organize torneios de um dia e campeonatos de longa duração.</p></div><button class="button" id="new-championship" type="button">+ Novo campeonato</button></section>
+        <p class="list-caption" id="championship-count" aria-live="polite"></p>
+        <section class="championship-list" id="championship-list" aria-label="Campeonatos"><p class="empty loading-state">Carregando campeonatos…</p></section>
+
+        <dialog id="championship-dialog" class="student-dialog" aria-labelledby="championship-title">
+            <form id="championship-form" novalidate>
+                <div class="dialog-heading"><h2 id="championship-title" tabindex="-1">Novo campeonato</h2><button type="button" class="icon-button close-dialog" aria-label="Fechar cadastro">×</button></div>
+                <p>Campos com * são obrigatórios.</p>
+                <fieldset><legend>1. Informações do campeonato</legend><div class="student-fields">
+                    <label class="full-field">Nome do campeonato *<input name="name" required maxlength="150"></label>
+                    <label>Tipo *<select name="type" required><option value="">Selecionar</option><option value="one_day">Torneio de um dia</option><option value="league">Liga / pontos corridos</option><option value="knockout">Mata-mata</option><option value="other">Outro</option></select></label>
+                    <label>Status *<select name="status" required><option value="planned">Planejado</option><option value="ongoing">Em andamento</option><option value="finished">Finalizado</option><option value="cancelled">Cancelado</option></select></label>
+                    <label>Data inicial *<input name="startDate" type="date" required></label>
+                    <label>Data final<input name="endDate" type="date"></label>
+                    <label>Cidade<input name="city" maxlength="120"></label>
+                    <label>Local<input name="location" maxlength="200"></label>
+                    <label class="full-field">Observações<textarea name="notes" rows="4" maxlength="2000"></textarea></label>
+                </div></fieldset>
+                <fieldset><legend>2. Categorias *</legend><p class="helper">Selecione ao menos uma categoria participante.</p><div class="category-checklist" id="championship-categories"></div><p id="championship-category-error" class="field-error" role="alert" hidden>Selecione ao menos uma categoria.</p></fieldset>
+                <div class="dialog-actions student-actions"><button type="button" class="button secondary close-dialog">Cancelar</button><button type="submit" class="button">Salvar campeonato</button></div>
+            </form>
+        </dialog>
+
+        <dialog id="championship-details" class="championship-details" aria-labelledby="championship-details-title">
+            <div class="dialog-heading"><h2 id="championship-details-title" tabindex="-1">Detalhes do campeonato</h2><button type="button" class="icon-button close-dialog" aria-label="Fechar detalhes">×</button></div>
+            <div id="championship-details-content"></div>
+            <div class="dialog-actions details-actions"><a class="button" id="championship-add-match" href="jogos.html">Adicionar jogo</a><button type="button" class="button secondary" id="edit-championship">Editar campeonato</button><button type="button" class="button secondary" id="finish-championship">Finalizar campeonato</button><button type="button" class="button secondary close-dialog">Voltar</button></div>
+        </dialog>
+        <p class="demo-note">Campeonatos e jogos persistidos com segurança no Supabase.</p><noscript>Ative o JavaScript para usar esta aplicação.</noscript>
+    </main>
+    <nav class="bottom-nav" aria-label="Navegação principal" id="main-nav"></nav>
+    <div class="toast" role="status" id="toast" hidden></div>
+</body>
+</html>

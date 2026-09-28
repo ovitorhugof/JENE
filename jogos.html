@@ -14,6 +14,7 @@
     <script src="js/services/auth-service.js" defer></script>
     <script src="js/services/categories-service.js" defer></script>
     <script src="js/services/students-service.js" defer></script>
+    <script src="js/services/championships-service.js" defer></script>
     <script src="js/services/matches-service.js" defer></script>
     <script src="js/app.js" defer></script>
     <script src="js/jogos.js" defer></script>
@@ -41,17 +42,27 @@
                 <fieldset><legend>1. Informações do jogo</legend><div class="student-fields">
                     <label class="full-field">Adversário *<input name="opponent" required maxlength="100" aria-describedby="error-opponent"><span class="field-error" id="error-opponent" hidden></span></label>
                     <label>Categoria *<select name="category" required aria-describedby="error-category"></select><span class="field-error" id="error-category" hidden></span></label>
+                    <label>Campeonato<select name="championship"><option value="">Nenhum</option></select></label>
                     <label>Data *<input name="date" type="date" required aria-describedby="error-date"><span class="field-error" id="error-date" hidden></span></label>
                     <label>Horário do jogo *<input name="matchTime" type="time" required aria-describedby="error-matchTime"><span class="field-error" id="error-matchTime" hidden></span></label>
                     <label>Horário de chegada<input name="arrivalTime" type="time"></label>
                     <label class="full-field">Local *<input name="location" required maxlength="200" aria-describedby="error-location"><span class="field-error" id="error-location" hidden></span></label>
+                    <label>Fase<input name="stage" maxlength="100" placeholder="Ex.: Final Ouro"></label>
+                    <label>Nome da rodada<input name="roundName" maxlength="100" placeholder="Ex.: Rodada de abertura"></label>
+                    <label>Número da rodada<input name="roundNumber" type="number" min="1" step="1" inputmode="numeric" placeholder="Ex.: 5"></label>
                 </div></fieldset>
                 <fieldset><legend>2. Transporte e orientações</legend><div class="student-fields">
                     <label>Transporte<select name="transport"><option value="">Selecionar</option><option>Van</option><option>Ônibus</option><option>Carros particulares</option><option>A pé</option><option>Transporte próprio</option><option>Outro</option></select></label>
                     <label id="custom-transport" hidden>Descreva o transporte *<input name="transportOther" maxlength="150" disabled aria-describedby="error-transportOther"><span class="field-error" id="error-transportOther" hidden></span></label>
                     <label class="full-field">Observações<textarea name="notes" rows="3" maxlength="2000"></textarea></label>
                 </div></fieldset>
-                <fieldset><legend>3. Convocação</legend>
+                <fieldset><legend>3. Resultado</legend><div class="student-fields">
+                    <label>Status do jogo<select name="matchStatus"><option value="scheduled">Agendado</option><option value="finished">Finalizado</option><option value="cancelled">Cancelado</option></select></label>
+                    <span></span>
+                    <label class="score-field" hidden>Gols da JENE *<input name="jeneScore" type="number" min="0" max="999" step="1" inputmode="numeric"></label>
+                    <label class="score-field" hidden>Gols do adversário *<input name="opponentScore" type="number" min="0" max="999" step="1" inputmode="numeric"></label>
+                </div></fieldset>
+                <fieldset><legend>4. Convocação</legend>
                     <p id="callup-count" aria-live="polite">Convocados: 0 de 0</p>
                     <div class="list-panel" id="callup-list"></div>
                     <p id="error-callup" class="field-error" role="alert" hidden>Selecione ao menos um jogador para a convocação.</p>

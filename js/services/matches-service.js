@@ -3,7 +3,7 @@
 (() => {
   const transportToDb = { "Van": "van", "Ônibus": "onibus", "Carros particulares": "carros_particulares", "A pé": "a_pe", "Transporte próprio": "transporte_proprio", "Outro": "outro" };
   const transportFromDb = Object.fromEntries(Object.entries(transportToDb).map(([label, value]) => [value, label]));
-  const matchColumns = "id, category_id, opponent, match_date, match_time, arrival_time, location, transport, transport_details, notes, created_at, updated_at, callups(id, match_id, student_id, player_name_snapshot, player_birth_date_snapshot, created_at)";
+  const matchColumns = "id, category_id, championship_id, opponent, match_date, match_time, arrival_time, location, transport, transport_details, notes, stage, round_name, round_number, jene_score, opponent_score, match_status, created_at, updated_at, callups(id, match_id, student_id, player_name_snapshot, player_birth_date_snapshot, created_at)";
   const wrap = (message, error) => Object.assign(new Error(message, { cause: error }), { code: error?.code });
 
   function mapMatch(row) {
@@ -11,7 +11,9 @@
     return {
       id: row.id, categoryId: row.category_id, category: category?.name || "Sem categoria", opponent: row.opponent,
       date: row.match_date, matchTime: row.match_time?.slice(0, 5) || "", arrivalTime: row.arrival_time?.slice(0, 5) || "",
-      location: row.location, transport: transportFromDb[row.transport] || "", transportOther: row.transport_details || "", notes: row.notes || "",
+      championshipId: row.championship_id, location: row.location, transport: transportFromDb[row.transport] || "", transportOther: row.transport_details || "", notes: row.notes || "",
+      stage: row.stage || "", roundName: row.round_name || "", roundNumber: row.round_number === null ? null : Number(row.round_number),
+      jeneScore: row.jene_score === null ? null : Number(row.jene_score), opponentScore: row.opponent_score === null ? null : Number(row.opponent_score), matchStatus: row.match_status || "scheduled",
       callups: (row.callups || []).map(item => ({ id: item.id, matchId: item.match_id, studentId: item.student_id, name: item.player_name_snapshot, birthDate: item.player_birth_date_snapshot || "" }))
     };
   }
@@ -19,7 +21,12 @@
   const matchPayload = match => ({
     category_id: match.categoryId, opponent: match.opponent.trim(), match_date: match.date, match_time: match.matchTime,
     arrival_time: match.arrivalTime || null, location: match.location.trim(), transport: transportToDb[match.transport] || null,
-    transport_details: match.transport === "Outro" ? match.transportOther.trim() : null, notes: match.notes.trim() || null
+    transport_details: match.transport === "Outro" ? match.transportOther.trim() : null, notes: match.notes.trim() || null,
+    championship_id: match.championshipId || null, stage: String(match.stage || "").trim() || null, round_name: String(match.roundName || "").trim() || null,
+    round_number: match.roundNumber === "" || match.roundNumber === null || match.roundNumber === undefined ? null : Number(match.roundNumber),
+    jene_score: match.matchStatus === "finished" ? Number(match.jeneScore) : null,
+    opponent_score: match.matchStatus === "finished" ? Number(match.opponentScore) : null,
+    match_status: match.matchStatus || "scheduled"
   });
   const callupPayload = (matchId, player) => ({ match_id: matchId, student_id: player.studentId, player_name_snapshot: player.name, player_birth_date_snapshot: player.birthDate || null });
 

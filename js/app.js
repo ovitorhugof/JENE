@@ -45,7 +45,8 @@ window.Jene = (() => {
     note: '<path d="M14 3H5v18h14V8Zm0 0v5h5M8 12h8M8 16h5"/>', info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10h.01"/>', home: '<path d="m3 10 9-7 9 7v11h-6v-7H9v7H3Z"/>',
     users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m20 0v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>', wallet: '<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 8V5a2 2 0 0 1 2-2h12m4 8h-6v5h6m-3-2.5h.01"/>',
     check: '<rect x="4" y="3" width="16" height="19" rx="2"/><path d="M9 3v3h6V3m-7 11 3 3 5-6"/>', userplus: '<circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2m4-13v6m-3-3h6"/>',
-    search: '<circle cx="10.5" cy="10.5" r="7.5"/><path d="m16 16 5 5"/>', clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>', alert: '<path d="m12 3 10 18H2Z"/><path d="M12 9v5m0 3h.01"/>', logout: '<path d="M10 17l5-5-5-5m5 5H3"/><path d="M14 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5"/>'
+    search: '<circle cx="10.5" cy="10.5" r="7.5"/><path d="m16 16 5 5"/>', clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>', alert: '<path d="m12 3 10 18H2Z"/><path d="M12 9v5m0 3h.01"/>', logout: '<path d="M10 17l5-5-5-5m5 5H3"/><path d="M14 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5"/>',
+    trophy: '<path d="M8 4h8v4a4 4 0 0 1-8 0Z"/><path d="M8 6H4v1a4 4 0 0 0 4 4m8-5h4v1a4 4 0 0 1-4 4M12 12v5m-4 4h8m-6-4h4"/>'
   };
   const icon = name => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (paths[name] || paths.check) + "</svg>";
   function toast(message) {
@@ -78,7 +79,7 @@ window.Jene = (() => {
     try { await loadRemoteData(); await loadDashboard(); } catch (error) { dataError = error.message || "Não foi possível carregar os dados do Supabase."; }
     if (dataError) { const warning = document.createElement("p"); warning.className = "storage-warning"; warning.setAttribute("role", "alert"); warning.textContent = dataError; document.getElementById("main")?.prepend(warning); }
     document.querySelectorAll("[data-icon]").forEach(element => { element.innerHTML = icon(element.dataset.icon); });
-    const navItems = [["index", "Início", "home"], ["alunos", "Alunos", "users"], ["mensalidades", "Mensalidades", "wallet"], ["chamada", "Chamada", "check"]];
+    const navItems = [["index", "Início", "home"], ["alunos", "Alunos", "users"], ["mensalidades", "Mensalidades", "wallet"], ["chamada", "Chamada", "check"], ["jogos", "Jogos", "calendar"], ["campeonatos", "Campeonatos", "trophy"]];
     document.getElementById("main-nav").innerHTML = navItems.map(([path, label, symbol]) => '<a class="nav-link" href="' + path + '.html" ' + (document.body.dataset.page === path ? 'aria-current="page"' : "") + ">" + icon(symbol) + "<span>" + label + "</span></a>").join(""); return access;
   });
   return Jene;
